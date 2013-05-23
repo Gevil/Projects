@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Audio;
-using Tyrian_Remake.CollisionDetection;
 #endregion
 
 namespace Tyrian_Remake
@@ -20,17 +19,30 @@ namespace Tyrian_Remake
     {
         #region Declarations
         GraphicsDeviceManager graphics;
+
+        ScreenManager screenManager;
+
         SpriteBatch spriteBatch;
         SpriteBatch ScreenBatch;
 
         //The screens and the current screen
-        Screens.ControllerDetectScreen mControllerScreen;
+        /*Screens.ControllerDetectScreen mControllerScreen;
         Screens.TitleScreen mTitleScreen;
         Screens.InGameScreen mInGameScreen;
-        Screen mCurrentScreen;
+        Screen mCurrentScreen;*/
 
+#if ZUNE
+        int defaultWidth = 272;
+        int defaultHeight = 480;
+#elif IPHONE
+        int defaultWidth = 320;
+        int defaultHeight = 480;
+#else
         //Default screen size
-        const int defaultWidth = 1280, defaultHeight = 720;
+        const int defaultWidth = 1280;
+        const int defaultHeight = 720;
+#endif
+
 
         //Get Primary Monitor Resolution
         double primaryScreenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
@@ -42,24 +54,6 @@ namespace Tyrian_Remake
         //Font
         SpriteFont TextFont;
 
-        //Ship
-        Texture2D mShipTexture;
-        Rectangle shipBodySourceRectangle;
-
-        Vector2 shipPosition;
-        Vector2 shipOrigin;
-
-        Sprites.PlayerShip mPlayerShipSprite;
-        Sprites.Projectile mProjectileSprite;
-        Sprites.BossTest mBossTestSprite;
-
-        //Game Music
-        SoundEffect GameMusic;
-        public SoundEffectInstance GameMusicInstance;
-
-        // For when a collision is detected
-        bool playerHit = false;
-
         #endregion
 
 
@@ -67,6 +61,16 @@ namespace Tyrian_Remake
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            // Create the screen manager component.
+            screenManager = new ScreenManager(this, graphics);
+
+            Components.Add(screenManager);
+
+            // Activate the first screens.
+            screenManager.AddScreen(new BackgroundScreen(), null);
+            screenManager.AddScreen(new MainMenuScreen(), null);
+
 
             //Set some fancy shit
             graphics.PreferMultiSampling = true;
@@ -103,10 +107,6 @@ namespace Tyrian_Remake
 
             MonoGameExtensions.SetPosition(this.Window, new Point(0,0));
 
-            // Calculate position and origin to draw in the center of the screen
-            shipPosition = new Vector2(this.Window.ClientBounds.Width / 2, this.Window.ClientBounds.Height / 2);
-            shipOrigin = new Vector2(24 / 1.0f, 28);
-
         }
         #endregion
 
@@ -126,45 +126,22 @@ namespace Tyrian_Remake
             // TODO: use this.Content to load your game content here
 
             //Initialize the various screens in the game
-            mControllerScreen = new Screens.ControllerDetectScreen(this.Content, new EventHandler(ControllerDetectScreenEvent));
+            /*mControllerScreen = new Screens.ControllerDetectScreen(this.Content, new EventHandler(ControllerDetectScreenEvent));
             mTitleScreen = new Screens.TitleScreen(this.Content, new EventHandler(TitleScreenEvent));
             mInGameScreen = new Screens.InGameScreen(this.Content, new EventHandler(InGameScreenEvent));
 
             //Set the current screen
-            mCurrentScreen = mControllerScreen;
+            mCurrentScreen = mControllerScreen;*/
 
             //Load Font
             TextFont = Content.Load<SpriteFont>("Downlink");
-
-            //Load Ship
-            mShipTexture = Content.Load<Texture2D>("ship-1");
-
-            //Default Ship State Texture
-            shipBodySourceRectangle = new Rectangle(96, 0, 48, 56);
-
-            mPlayerShipSprite = new Sprites.PlayerShip();
-            mProjectileSprite = new Sprites.Projectile();
-
-            mPlayerShipSprite.Scale = 1.0f;
-            mPlayerShipSprite.Source = shipBodySourceRectangle;
-
-            mBossTestSprite = new Sprites.BossTest();
-
-            mProjectileSprite.LoadContent(Content);
-            mPlayerShipSprite.LoadContent(Content);
-            mBossTestSprite.LoadContent(Content);
-
-            //Game Music
-            GameMusic = Content.Load<SoundEffect>("Rock Garden");
-            GameMusicInstance = GameMusic.CreateInstance();
-
         }
         #endregion
 
         #region Screen / GameState Events
         //Screen Events
         //This event fires when the Controller detect screen is returning control back to the main game class
-        public void ControllerDetectScreenEvent(object obj, EventArgs e)
+        /*public void ControllerDetectScreenEvent(object obj, EventArgs e)
         {
             //Switch to the title screen, the Controller detect screen is finished being displayed
             mCurrentScreen = mTitleScreen;
@@ -182,7 +159,7 @@ namespace Tyrian_Remake
         {
             //Switch to the InGame screen, the Title screen is finished being displayed
             mCurrentScreen = mInGameScreen;
-        }
+        }*/
 
         #endregion
 
@@ -207,64 +184,7 @@ namespace Tyrian_Remake
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
             // TODO: Add your update logic here
-
-            //By taking advantage of Polymorphism, we can call update on the current screen class, 
-            //but the Update in the subclass is the one that will be executed.
-            mCurrentScreen.Update(gameTime);
-
-            mPlayerShipSprite.Update(gameTime, graphics);
-            mProjectileSprite.Update(gameTime);
-
-            mBossTestSprite.Update(gameTime, graphics);
-
-
-            if (mCurrentScreen is Screens.InGameScreen)
-            {
-                //Sound
-                if (mTitleScreen.MenuMusicInstance.State == SoundState.Playing)
-                    mTitleScreen.MenuMusicInstance.Stop();
-
-                if (GameMusicInstance.State != SoundState.Playing)
-                {
-                    GameMusicInstance.Volume = 0.75f;
-                    GameMusicInstance.IsLooped = true;
-                    GameMusicInstance.Play();
-                }
-
-                playerHit = false; mBossTestSprite.isHit = false;
-
-                //Hit testing for enemy projectiles
-                foreach (Sprites.Projectile projectile in mBossTestSprite.mProjectiles)
-                {
-                    if (projectile.Visible == true)
-                    {
-                        if (_2DCollisionDetection.IntersectPixels(mPlayerShipSprite.BoundingRectangle, mPlayerShipSprite.mSpriteTextureData, projectile.BoundingRectangle, projectile.mSpriteTextureData))
-                        {
-                            playerHit = true;
-                            projectile.Disposable = true;
-                        }
-                    }
-                }
-
-                
-                //Hit testing for player projectiles
-                foreach (Sprites.Projectile projectile in mPlayerShipSprite.mProjectiles)
-                {
-                    if (projectile.Visible == true)
-                    {
-                        if (_2DCollisionDetection.IntersectPixels(mBossTestSprite.BoundingRectangle, mBossTestSprite.mSpriteTextureData, projectile.BoundingRectangle, projectile.mSpriteTextureData))
-                        {
-                            mBossTestSprite.isHit = true;
-                            projectile.Disposable = true;
-                        }
-                    }
-                }
-            }
-
 
             base.Update(gameTime);
         }
@@ -294,7 +214,7 @@ namespace Tyrian_Remake
 
             //Again, using Polymorphism, we can call draw on the current screen class
             //and the Draw in the subclass is the one that will be executed.
-            mCurrentScreen.Draw(ScreenBatch);
+            //mCurrentScreen.Draw(ScreenBatch);
 
             Vector2 textPos = new Vector2(20, 20);
             ScreenBatch.DrawString(TextFont, "Running!", textPos, Color.Peru);
@@ -308,34 +228,7 @@ namespace Tyrian_Remake
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, SpriteScale);
 
 
-            if (mCurrentScreen is Screens.InGameScreen)
-            {
-                //spriteBatch.Draw(mShipTexture, shipPosition, shipBodySourceRectangle, Color.White, 0.0f, shipOrigin, 4.0f, SpriteEffects.None, 0.0f);
-                
-                //Draw Player Ship here
-                mPlayerShipSprite.Draw(spriteBatch);
-
-                //draw Boss test sprite
-                mBossTestSprite.Draw(spriteBatch);
-
-                if (playerHit) // Change the background to red when the player is hit by an enemy projectile
-                {
-                    GraphicsDevice.Clear(Color.DarkRed);
-                }
-                else if (mBossTestSprite.isHit) // Change the background to green when the enemy is hit by a player projectile
-                {
-                    GraphicsDevice.Clear(Color.DarkGreen);
-                }
-                else
-                {
-                    GraphicsDevice.Clear(Color.Black);
-                }                
-
-            }
-
             spriteBatch.End();
-
-            //this.Window.Title = "Running!";
 
             base.Draw(gameTime);
         }

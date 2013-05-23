@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace Tyrian_Remake.CollisionDetection
+namespace Tyrian_Remake
 {
-    public class _2DCollisionDetection
+    public class CollisionDetection
     {
         /// <summary>
         /// Determines if there is overlap of the non-transparent pixels

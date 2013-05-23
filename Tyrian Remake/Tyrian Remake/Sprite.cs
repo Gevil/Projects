@@ -86,7 +86,6 @@ namespace Tyrian_Remake
             //BoundingRectangle.X = (int)Position.X;
             //BoundingRectangle.Y = (int)Position.Y;
 
-
         }
 
         //Draw the sprite to the screen

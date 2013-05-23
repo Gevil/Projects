@@ -39,6 +39,8 @@ namespace Tyrian_Remake.Sprites
 
         ContentManager mContentManager;
 
+        public bool isHit = false;
+
         const double fireRate = 0.9;
         double fireTime = 0;
 

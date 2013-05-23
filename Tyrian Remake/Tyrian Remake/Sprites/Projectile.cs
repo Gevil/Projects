@@ -24,7 +24,7 @@ namespace Tyrian_Remake.Sprites
         public void LoadContent(ContentManager theContentManager)
         {
             base.LoadContent(theContentManager, "projectile-1");
-            Scale = 1.5f;
+            Scale = 1.0f;
         }
 
         public void Update(GameTime theGameTime)

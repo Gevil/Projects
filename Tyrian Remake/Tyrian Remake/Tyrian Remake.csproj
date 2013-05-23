@@ -36,15 +36,28 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CollisionDetection\2DCollisionDetection.cs" />
+    <Compile Include="ScreenManager\GameScreen.cs" />
+    <Compile Include="ScreenManager\InputState.cs" />
+    <Compile Include="ScreenManager\ScreenManager.cs" />
+    <Compile Include="Screens\BackgroundScreen.cs" />
+    <Compile Include="Screens\GameplayScreen.cs" />
+    <Compile Include="Screens\LoadingScreen.cs" />
+    <Compile Include="Screens\MainMenuScreen.cs" />
+    <Compile Include="Screens\MenuEntry.cs" />
+    <Compile Include="Screens\MenuScreen.cs" />
+    <Compile Include="Screens\MessageBoxScreen.cs" />
+    <Compile Include="Screens\OptionsMenuScreen.cs" />
+    <Compile Include="Screens\PauseMenuScreen.cs" />
+    <Compile Include="Screens\PlayerIndexEventArgs.cs" />
     <Compile Include="Sprites\BossTest.cs" />
     <Compile Include="TyrianRemake.cs" />
     <Compile Include="MonoGameExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Screen.cs" />
-    <Compile Include="Screens\ControllerDetectScreen.cs" />
-    <Compile Include="Screens\InGameScreen.cs" />
-    <Compile Include="Screens\TitleScreen.cs" />
+    <Compile Include="Screens_OBSOLETE\ControllerDetectScreen.cs" />
+    <Compile Include="Screens_OBSOLETE\InGameScreen.cs" />
+    <Compile Include="Screens_OBSOLETE\TitleScreen.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Sprites\PlayerShip.cs" />
     <Compile Include="Sprites\Projectile.cs" />
@@ -105,6 +118,17 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\ship-1.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\blank.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\boss_test2.xnb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\gradient.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
