@@ -13,11 +13,10 @@ namespace Tyrian_Remake
     class MenuEntry
     {
         #region Fields
-
         /// <summary>
         /// The text rendered for this entry.
         /// </summary>
-        string text;
+        string _text;
 
         /// <summary>
         /// Tracks a fading selection effect on the entry.
@@ -25,49 +24,40 @@ namespace Tyrian_Remake
         /// <remarks>
         /// The entries transition out of the selection effect when they are deselected.
         /// </remarks>
-        float selectionFade;
+        float _selectionFade;
 
         /// <summary>
         /// The position at which the entry is drawn. This is set by the MenuScreen
         /// each frame in Update.
         /// </summary>
-        Vector2 position;
-
+        Vector2 _position;
         #endregion
 
         #region Properties
-
-
         /// <summary>
         /// Gets or sets the text of this menu entry.
         /// </summary>
         public string Text
         {
-            get { return text; }
-            set { text = value; }
+            get { return _text; }
+            set { _text = value; }
         }
-
 
         /// <summary>
         /// Gets or sets the position at which to draw this menu entry.
         /// </summary>
         public Vector2 Position
         {
-            get { return position; }
-            set { position = value; }
+            get { return _position; }
+            set { _position = value; }
         }
-
-
         #endregion
 
         #region Events
-
-
         /// <summary>
         /// Event raised when the menu entry is selected.
         /// </summary>
         public event EventHandler<PlayerIndexEventArgs> Selected;
-
 
         /// <summary>
         /// Method for raising the Selected event.
@@ -77,27 +67,19 @@ namespace Tyrian_Remake
             if (Selected != null)
                 Selected(this, new PlayerIndexEventArgs(playerIndex));
         }
-
-
         #endregion
 
         #region Initialization
-
-
         /// <summary>
         /// Constructs a new menu entry with the specified text.
         /// </summary>
         public MenuEntry(string text)
         {
-            this.text = text;
+            _text = text;
         }
-
-
         #endregion
 
         #region Update and Draw
-
-
         /// <summary>
         /// Updates the menu entry.
         /// </summary>
@@ -112,12 +94,9 @@ namespace Tyrian_Remake
             // When the menu selection changes, entries gradually fade between
             // their selected and deselected appearance, rather than instantly
             // popping to the new state.
-            float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 4;
+            var fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 4;
 
-            if (isSelected)
-                selectionFade = Math.Min(selectionFade + fadeSpeed, 1);
-            else
-                selectionFade = Math.Max(selectionFade - fadeSpeed, 0);
+            _selectionFade = isSelected ? Math.Min(_selectionFade + fadeSpeed, 1) : Math.Max(_selectionFade - fadeSpeed, 0);
         }
 
 
@@ -133,26 +112,26 @@ namespace Tyrian_Remake
 #endif
 
             // Draw the selected entry in yellow, otherwise white.
-            Color color = isSelected ? Color.Yellow : Color.White;
+            var color = isSelected ? Color.Yellow : Color.White;
 
             // Pulsate the size of the selected menu entry.
-            double time = gameTime.TotalGameTime.TotalSeconds;
+            var time = gameTime.TotalGameTime.TotalSeconds;
 
-            float pulsate = (float)Math.Sin(time * 6) + 1;
+            var pulsate = (float)Math.Sin(time * 6) + 1;
 
-            float scale = 1 + pulsate * 0.05f * selectionFade;
+            var scale = 1 + pulsate * 0.05f * _selectionFade;
 
             // Modify the alpha to fade text out during transitions.
             color *= screen.TransitionAlpha;
 
             // Draw text, centered on the middle of each line.
-            ScreenManager screenManager = screen.ScreenManager;
-            SpriteBatch spriteBatch = screenManager.SpriteBatch;
-            SpriteFont font = screenManager.Font;
+            var screenManager = screen.ScreenManager;
+            var spriteBatch = screenManager.SpriteBatch;
+            var font = screenManager.Font;
 
-            Vector2 origin = new Vector2(0, font.LineSpacing / 2);
+            var origin = new Vector2(0, font.LineSpacing / 2);
 
-            spriteBatch.DrawString(font, text, position, color, 0,
+            spriteBatch.DrawString(font, _text, _position, color, 0,
                                    origin, scale, SpriteEffects.None, 0);
         }
 

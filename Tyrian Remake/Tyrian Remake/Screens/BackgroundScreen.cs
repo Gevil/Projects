@@ -15,8 +15,8 @@ namespace Tyrian_Remake
     {
         #region Fields
 
-        ContentManager content;
-        Texture2D backgroundTexture;
+        ContentManager _content;
+        Texture2D _backgroundTexture;
 
         #endregion
 
@@ -42,10 +42,10 @@ namespace Tyrian_Remake
         /// </summary>
         public override void LoadContent()
         {
-            if (content == null)
-                content = new ContentManager(ScreenManager.Game.Services, "Content");
+            if (_content == null)
+                _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-            backgroundTexture = content.Load<Texture2D>("title-bg-1920-1080");
+            _backgroundTexture = _content.Load<Texture2D>("title-bg-1920-1080");
         }
 
 
@@ -54,7 +54,7 @@ namespace Tyrian_Remake
         /// </summary>
         public override void UnloadContent()
         {
-            content.Unload();
+            _content.Unload();
         }
 
 
@@ -82,14 +82,13 @@ namespace Tyrian_Remake
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-            Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
-            Rectangle fullscreen = new Rectangle(0, 0, viewport.Width, viewport.Height);
+            var spriteBatch = ScreenManager.SpriteBatch;
+            var viewport = ScreenManager.GraphicsDevice.Viewport;
+            var fullscreen = new Rectangle(0, 0, viewport.Width, viewport.Height);
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(backgroundTexture, fullscreen,
-                             new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+            spriteBatch.Draw(_backgroundTexture, fullscreen, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
 
             spriteBatch.End();
         }

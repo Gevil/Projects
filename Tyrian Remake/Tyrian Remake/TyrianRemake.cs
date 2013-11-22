@@ -1,13 +1,12 @@
 ﻿#region Using Statements
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
+using System.Windows;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Storage;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Audio;
+using GameWindow = OpenTK.GameWindow;
+
 #endregion
 
 namespace Tyrian_Remake
@@ -18,12 +17,11 @@ namespace Tyrian_Remake
     public class TyrianRemake : Game
     {
         #region Declarations
-        GraphicsDeviceManager graphics;
 
-        ScreenManager screenManager;
+        readonly GraphicsDeviceManager _graphics;
 
-        SpriteBatch spriteBatch;
-        SpriteBatch ScreenBatch;
+        SpriteBatch _spriteBatch;
+        SpriteBatch _screenBatch;
 
         //The screens and the current screen
         /*Screens.ControllerDetectScreen mControllerScreen;
@@ -31,39 +29,41 @@ namespace Tyrian_Remake
         Screens.InGameScreen mInGameScreen;
         Screen mCurrentScreen;*/
 
+        bool _writeInfo = true;
+
 #if ZUNE
-        int defaultWidth = 272;
-        int defaultHeight = 480;
+        int DefaultWidth = 272;
+        int DefaultHeight = 480;
 #elif IPHONE
-        int defaultWidth = 320;
-        int defaultHeight = 480;
+        int DefaultWidth = 320;
+        int DefaultHeight = 480;
 #else
         //Default screen size
-        const int defaultWidth = 1280;
-        const int defaultHeight = 720;
+        const int DefaultWidth = 1280;
+        const int DefaultHeight = 720;
 #endif
 
 
         //Get Primary Monitor Resolution
-        double primaryScreenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
-        double primaryScreenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+        double _primaryScreenHeight = SystemParameters.PrimaryScreenHeight;
+        double _primaryScreenWidth = SystemParameters.PrimaryScreenWidth;
 
         //Calculate scale for default window resolution compared to actual screen resolution
-        double resolutionScale = Math.Abs(defaultWidth / System.Windows.SystemParameters.PrimaryScreenWidth);
+        double _resolutionScale = Math.Abs(DefaultWidth / SystemParameters.PrimaryScreenWidth);
 
         //Font
-        SpriteFont TextFont;
+        SpriteFont _textFont;
 
         #endregion
 
 
-        public TyrianRemake() : base()
+        public TyrianRemake()
         {
-            graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
             // Create the screen manager component.
-            screenManager = new ScreenManager(this, graphics);
+            var screenManager = new ScreenManager(this, _graphics);
 
             Components.Add(screenManager);
 
@@ -73,14 +73,14 @@ namespace Tyrian_Remake
 
 
             //Set some fancy shit
-            graphics.PreferMultiSampling = true;
-            this.GraphicsDevice.SamplerStates[0] = SamplerState.AnisotropicClamp;
-            graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
+            _graphics.PreferMultiSampling = true;
+            GraphicsDevice.SamplerStates[0] = SamplerState.AnisotropicClamp;
+            _graphics.PreferredDepthStencilFormat = DepthFormat.Depth24Stencil8;
 
 
             //Initialize screen size to an ideal resolution for the XBox 360
-            this.graphics.PreferredBackBufferWidth = defaultWidth;
-            this.graphics.PreferredBackBufferHeight = defaultHeight;
+            _graphics.PreferredBackBufferWidth = DefaultWidth;
+            _graphics.PreferredBackBufferHeight = DefaultHeight;
 
             //this.Window.ClientBounds.Location = new Point(Convert.ToInt32(primaryScreenWidth * resolutionScale), Convert.ToInt32(primaryScreenHeight * resolutionScale));
 
@@ -101,11 +101,14 @@ namespace Tyrian_Remake
             base.Initialize();
 
             Type type = typeof(OpenTKGameWindow);
-            System.Reflection.FieldInfo field = type.GetField("window", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            OpenTK.GameWindow window = (OpenTK.GameWindow)field.GetValue(this.Window);
+            FieldInfo field = type.GetField("window", BindingFlags.NonPublic | BindingFlags.Instance);
+            if (field != null)
+            {
+                GameWindow window = (GameWindow)field.GetValue(Window);
+            }
 
 
-            MonoGameExtensions.SetPosition(this.Window, new Point(0,0));
+            Window.SetPosition(new Point(0,0));
 
         }
         #endregion
@@ -120,8 +123,8 @@ namespace Tyrian_Remake
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            ScreenBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _screenBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
 
@@ -134,7 +137,7 @@ namespace Tyrian_Remake
             mCurrentScreen = mControllerScreen;*/
 
             //Load Font
-            TextFont = Content.Load<SpriteFont>("Downlink");
+            _textFont = Content.Load<SpriteFont>("Downlink");
         }
         #endregion
 
@@ -184,6 +187,13 @@ namespace Tyrian_Remake
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            if (_writeInfo)
+            {
+                WriteLog("Update passed once.");
+
+                _writeInfo = false;
+            }
+
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -206,33 +216,37 @@ namespace Tyrian_Remake
 
             // TODO: Add your drawing code here
 
-            float screenscale = (float)graphics.GraphicsDevice.Viewport.Width / defaultWidth;
-            var SpriteScale = Matrix.CreateScale(screenscale*0.67f, screenscale*0.67f, 1);
+            var screenscale = (float)_graphics.GraphicsDevice.Viewport.Width / DefaultWidth;
+            var spriteScale = Matrix.CreateScale(screenscale*0.67f, screenscale*0.67f, 1);
 
 
-            ScreenBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, SpriteScale);
+            _screenBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, spriteScale);
 
             //Again, using Polymorphism, we can call draw on the current screen class
             //and the Draw in the subclass is the one that will be executed.
             //mCurrentScreen.Draw(ScreenBatch);
 
-            Vector2 textPos = new Vector2(20, 20);
-            ScreenBatch.DrawString(TextFont, "Running!", textPos, Color.Peru);
+            var textPos = new Vector2(20, 20);
+            _screenBatch.DrawString(_textFont, "Running!", textPos, Color.Peru);
 
-            ScreenBatch.End();
-
-
-            SpriteScale = Matrix.CreateScale(screenscale, screenscale, 1);
+            _screenBatch.End();
 
 
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, SpriteScale);
+            spriteScale = Matrix.CreateScale(screenscale, screenscale, 1);
 
 
-            spriteBatch.End();
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, null, null, null, null, spriteScale);
+
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
         #endregion
 
+        private static void WriteLog(string output)
+        {
+            Debug.WriteLine(output);
+        }
     }
 }

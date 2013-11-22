@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input.Touch;
 
@@ -28,7 +26,6 @@ namespace Tyrian_Remake
     {
         #region Properties
 
-
         /// <summary>
         /// Normally when one screen is brought up over the top of another,
         /// the first screen will transition off to make room for the new
@@ -36,13 +33,7 @@ namespace Tyrian_Remake
         /// popup, in which case screens underneath it do not need to bother
         /// transitioning off.
         /// </summary>
-        public bool IsPopup
-        {
-            get { return isPopup; }
-            protected set { isPopup = value; }
-        }
-
-        bool isPopup = false;
+        public bool IsPopup { get; protected set; }
 
 
         /// <summary>
@@ -51,11 +42,11 @@ namespace Tyrian_Remake
         /// </summary>
         public TimeSpan TransitionOnTime
         {
-            get { return transitionOnTime; }
-            protected set { transitionOnTime = value; }
+            get { return _transitionOnTime; }
+            protected set { _transitionOnTime = value; }
         }
 
-        TimeSpan transitionOnTime = TimeSpan.Zero;
+        TimeSpan _transitionOnTime = TimeSpan.Zero;
 
 
         /// <summary>
@@ -64,11 +55,11 @@ namespace Tyrian_Remake
         /// </summary>
         public TimeSpan TransitionOffTime
         {
-            get { return transitionOffTime; }
-            protected set { transitionOffTime = value; }
+            get { return _transitionOffTime; }
+            protected set { _transitionOffTime = value; }
         }
 
-        TimeSpan transitionOffTime = TimeSpan.Zero;
+        TimeSpan _transitionOffTime = TimeSpan.Zero;
 
 
         /// <summary>
@@ -78,11 +69,11 @@ namespace Tyrian_Remake
         /// </summary>
         public float TransitionPosition
         {
-            get { return transitionPosition; }
-            protected set { transitionPosition = value; }
+            get { return _transitionPosition; }
+            protected set { _transitionPosition = value; }
         }
 
-        float transitionPosition = 1;
+        float _transitionPosition = 1;
 
 
         /// <summary>
@@ -101,11 +92,11 @@ namespace Tyrian_Remake
         /// </summary>
         public ScreenState ScreenState
         {
-            get { return screenState; }
-            protected set { screenState = value; }
+            get { return _screenState; }
+            protected set { _screenState = value; }
         }
 
-        ScreenState screenState = ScreenState.TransitionOn;
+        ScreenState _screenState = ScreenState.TransitionOn;
 
 
         /// <summary>
@@ -118,11 +109,11 @@ namespace Tyrian_Remake
         /// </summary>
         public bool IsExiting
         {
-            get { return isExiting; }
-            protected internal set { isExiting = value; }
+            get { return _isExiting; }
+            protected internal set { _isExiting = value; }
         }
 
-        bool isExiting = false;
+        bool _isExiting;
 
 
         /// <summary>
@@ -132,25 +123,19 @@ namespace Tyrian_Remake
         {
             get
             {
-                return !otherScreenHasFocus &&
-                       (screenState == ScreenState.TransitionOn ||
-                        screenState == ScreenState.Active);
+                return !_otherScreenHasFocus &&
+                       (_screenState == ScreenState.TransitionOn ||
+                        _screenState == ScreenState.Active);
             }
         }
 
-        bool otherScreenHasFocus;
+        bool _otherScreenHasFocus;
 
 
         /// <summary>
         /// Gets the manager that this screen belongs to.
         /// </summary>
-        public ScreenManager ScreenManager
-        {
-            get { return screenManager; }
-            internal set { screenManager = value; }
-        }
-
-        ScreenManager screenManager;
+        public ScreenManager ScreenManager { get; internal set; }
 
 
         /// <summary>
@@ -161,13 +146,7 @@ namespace Tyrian_Remake
         /// this menu is given control over all subsequent screens, so other gamepads
         /// are inactive until the controlling player returns to the main menu.
         /// </summary>
-        public PlayerIndex? ControllingPlayer
-        {
-            get { return controllingPlayer; }
-            internal set { controllingPlayer = value; }
-        }
-
-        PlayerIndex? controllingPlayer;
+        public PlayerIndex? ControllingPlayer { get; internal set; }
 
 
         /// <summary>
@@ -179,10 +158,10 @@ namespace Tyrian_Remake
         /// </summary>
         public GestureType EnabledGestures
         {
-            get { return enabledGestures; }
+            get { return _enabledGestures; }
             protected set
             {
-                enabledGestures = value;
+                _enabledGestures = value;
 
                 // the screen manager handles this during screen changes, but
                 // if this screen is active and the gesture types are changing,
@@ -194,14 +173,15 @@ namespace Tyrian_Remake
             }
         }
 
-        GestureType enabledGestures = GestureType.None;
+        GestureType _enabledGestures = GestureType.None;
 
-
+        protected GameScreen()
+        {
+            IsPopup = false;
+        }
         #endregion
 
         #region Initialization
-
-
         /// <summary>
         /// Load graphics content for the screen.
         /// </summary>
@@ -212,13 +192,9 @@ namespace Tyrian_Remake
         /// Unload content for the screen.
         /// </summary>
         public virtual void UnloadContent() { }
-
-
         #endregion
 
         #region Update and Draw
-
-
         /// <summary>
         /// Allows the screen to run logic, such as updating the transition position.
         /// Unlike HandleInput, this method is called regardless of whether the screen
@@ -227,46 +203,26 @@ namespace Tyrian_Remake
         public virtual void Update(GameTime gameTime, bool otherScreenHasFocus,
                                                       bool coveredByOtherScreen)
         {
-            this.otherScreenHasFocus = otherScreenHasFocus;
+            _otherScreenHasFocus = otherScreenHasFocus;
 
-            if (isExiting)
+            if (_isExiting)
             {
                 // If the screen is going away to die, it should transition off.
-                screenState = ScreenState.TransitionOff;
+                _screenState = ScreenState.TransitionOff;
 
-                if (!UpdateTransition(gameTime, transitionOffTime, 1))
-                {
-                    // When the transition finishes, remove the screen.
-                    ScreenManager.RemoveScreen(this);
-                }
+                // When the transition finishes, remove the screen.
+                if (UpdateTransition(gameTime, _transitionOffTime, 1)) return;
+                ScreenManager.RemoveScreen(this);
             }
             else if (coveredByOtherScreen)
             {
                 // If the screen is covered by another, it should transition off.
-                if (UpdateTransition(gameTime, transitionOffTime, 1))
-                {
-                    // Still busy transitioning.
-                    screenState = ScreenState.TransitionOff;
-                }
-                else
-                {
-                    // Transition finished!
-                    screenState = ScreenState.Hidden;
-                }
+                _screenState = UpdateTransition(gameTime, _transitionOffTime, 1) ? ScreenState.TransitionOff : ScreenState.Hidden;
             }
             else
             {
                 // Otherwise the screen should transition on and become active.
-                if (UpdateTransition(gameTime, transitionOnTime, -1))
-                {
-                    // Still busy transitioning.
-                    screenState = ScreenState.TransitionOn;
-                }
-                else
-                {
-                    // Transition finished!
-                    screenState = ScreenState.Active;
-                }
+                _screenState = UpdateTransition(gameTime, _transitionOnTime, -1) ? ScreenState.TransitionOn : ScreenState.Active;
             }
         }
 
@@ -286,18 +242,15 @@ namespace Tyrian_Remake
                                           time.TotalMilliseconds);
 
             // Update the transition position.
-            transitionPosition += transitionDelta * direction;
+            _transitionPosition += transitionDelta * direction;
 
             // Did we reach the end of the transition?
-            if (((direction < 0) && (transitionPosition <= 0)) ||
-                ((direction > 0) && (transitionPosition >= 1)))
-            {
-                transitionPosition = MathHelper.Clamp(transitionPosition, 0, 1);
-                return false;
-            }
+            if (((direction >= 0) || (!(_transitionPosition <= 0))) &&
+                ((direction <= 0) || (!(_transitionPosition >= 1)))) return true;
+            _transitionPosition = MathHelper.Clamp(_transitionPosition, 0, 1);
+            return false;
 
             // Otherwise we are still busy transitioning.
-            return true;
         }
 
 
@@ -335,7 +288,7 @@ namespace Tyrian_Remake
             else
             {
                 // Otherwise flag that it should transition off and then exit.
-                isExiting = true;
+                _isExiting = true;
             }
         }
 

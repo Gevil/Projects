@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace Tyrian_Remake
+﻿namespace Tyrian_Remake
 {
     /// <summary>
     /// The pause menu comes up over the top of the game,
@@ -9,17 +7,14 @@ namespace Tyrian_Remake
     class PauseMenuScreen : MenuScreen
     {
         #region Initialization
-
-
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PauseMenuScreen()
-            : base("Paused")
+        public PauseMenuScreen(): base("Paused")
         {
             // Create our menu entries.
-            MenuEntry resumeGameMenuEntry = new MenuEntry("Resume Game");
-            MenuEntry quitGameMenuEntry = new MenuEntry("Quit Game");
+            var resumeGameMenuEntry = new MenuEntry("Resume Game");
+            var quitGameMenuEntry = new MenuEntry("Quit Game");
 
             // Hook up menu event handlers.
             resumeGameMenuEntry.Selected += OnCancel;
@@ -29,8 +24,6 @@ namespace Tyrian_Remake
             MenuEntries.Add(resumeGameMenuEntry);
             MenuEntries.Add(quitGameMenuEntry);
         }
-
-
         #endregion
 
         #region Handle Input
@@ -43,7 +36,7 @@ namespace Tyrian_Remake
         {
             const string message = "Are you sure you want to quit this game?";
 
-            MessageBoxScreen confirmQuitMessageBox = new MessageBoxScreen(message);
+            var confirmQuitMessageBox = new MessageBoxScreen(message);
 
             confirmQuitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
 

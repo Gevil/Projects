@@ -11,10 +11,10 @@ namespace Tyrian_Remake
         public Vector2 Position = new Vector2(0, 0);
 
         //The texture object used when drawing the sprite
-        public Texture2D mSpriteTexture;
+        public Texture2D MSpriteTexture;
 
         //Texture Color Data for collision detection
-        public Color[] mSpriteTextureData;
+        public Color[] MSpriteTextureData;
 
         //BoundingRectangle based on position
         public Rectangle BoundingRectangle;
@@ -27,14 +27,14 @@ namespace Tyrian_Remake
 
         //The Rectangular area from the original image that 
         //defines the Sprite. 
-        Rectangle mSource;
+        Rectangle _mSource;
         public Rectangle Source
         {
-            get { return mSource; }
+            get { return _mSource; }
             set
             {
-                mSource = value;
-                Size = new Rectangle(0, 0, (int)(mSource.Width * Scale), (int)(mSource.Height * Scale));
+                _mSource = value;
+                Size = new Rectangle(0, 0, (int)(_mSource.Width * Scale), (int)(_mSource.Height * Scale));
             }
         }
 
@@ -42,13 +42,13 @@ namespace Tyrian_Remake
         //The amount to increase/decrease the size of the original sprite. When
         //modified throught he property, the Size of the sprite is recalculated
         //with the new scale applied.
-        private float mScale = 1.0f;
+        private float _mScale = 1.0f;
         public float Scale
         {
-            get { return mScale; }
+            get { return _mScale; }
             set
             {
-                mScale = value;
+                _mScale = value;
                 //Recalculate the Size of the Sprite with the new scale
                 Size = new Rectangle(0, 0, (int)(Source.Width * Scale), (int)(Source.Height * Scale));
             }
@@ -57,16 +57,16 @@ namespace Tyrian_Remake
         //Load the texture for the sprite using the Content Pipeline
         public void LoadContent(ContentManager theContentManager, string theAssetName)
         {
-            mSpriteTexture = theContentManager.Load<Texture2D>(theAssetName);
+            MSpriteTexture = theContentManager.Load<Texture2D>(theAssetName);
 
-            mSpriteTextureData = new Color[mSpriteTexture.Width * mSpriteTexture.Height];
+            MSpriteTextureData = new Color[MSpriteTexture.Width * MSpriteTexture.Height];
 
-            mSpriteTexture.GetData(mSpriteTextureData);
+            MSpriteTexture.GetData(MSpriteTextureData);
 
             AssetName = theAssetName;
 
-            Source = new Rectangle(0, 0, mSpriteTexture.Width, mSpriteTexture.Height);
-            Size = new Rectangle(0, 0, (int)(mSpriteTexture.Width * Scale), (int)(mSpriteTexture.Height * Scale));
+            Source = new Rectangle(0, 0, MSpriteTexture.Width, MSpriteTexture.Height);
+            Size = new Rectangle(0, 0, (int)(MSpriteTexture.Width * Scale), (int)(MSpriteTexture.Height * Scale));
 
             // Get the bounding rectangle of the player ship
             BoundingRectangle = new Rectangle((int)Position.X, (int)Position.Y, Source.Width, Source.Height);
@@ -91,7 +91,7 @@ namespace Tyrian_Remake
         //Draw the sprite to the screen
         public virtual void Draw(SpriteBatch theSpriteBatch)
         {
-            theSpriteBatch.Draw(mSpriteTexture, Position, Source, Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 0);
+            theSpriteBatch.Draw(MSpriteTexture, Position, Source, Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 0);
         }
     }
 

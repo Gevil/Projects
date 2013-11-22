@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Storage;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -12,109 +8,89 @@ namespace Tyrian_Remake.Sprites
 {
     class BossTest : Sprite
     {
-        const string SHIP_ASSETNAME = "boss-test";
-        const int START_POSITION_X = 450;
-        const int START_POSITION_Y = 70;
-        const int SHIP_SPEED = 170;
-        const int MOVE_UP = -1;
-        const int MOVE_DOWN = 1;
-        const int MOVE_LEFT = -1;
-        const int MOVE_RIGHT = 1;
+        const string ShipAssetname = "boss-test";
+        const int StartPositionX = 450;
+        const int StartPositionY = 70;
+        const int ShipSpeed = 170;
+        const int MoveUp = -1;
+        const int MoveDown = 1;
+        const int MoveLeft = -1;
+        const int MoveRight = 1;
 
         enum State
         {
             Moving
         }
 
-        State mCurrentState = State.Moving;
+        private const State MCurrentState = State.Moving;
 
         Vector2 mDirection = Vector2.Zero;
         Vector2 mSpeed = Vector2.Zero;
 
-        KeyboardState mPreviousKeyboardState;
+        KeyboardState _mPreviousKeyboardState;
 
-        Vector2 mStartingPosition = Vector2.Zero;
+        Vector2 _mStartingPosition = Vector2.Zero;
 
-        public List<Projectile> mProjectiles = new List<Projectile>();
+        public List<Projectile> MProjectiles = new List<Projectile>();
 
-        ContentManager mContentManager;
+        ContentManager _mContentManager;
 
-        const double fireRate = 1.5;
-        double fireTime = 0;
+        const double FireRate = 1.5;
+        double _fireTime = 0;
 
-        public bool isHit = false;
+        public bool IsHit = false;
 
         public void LoadContent(ContentManager theContentManager)
         {
-            mContentManager = theContentManager;
+            _mContentManager = theContentManager;
 
-            foreach (Projectile aProjectile in mProjectiles)
+            foreach (var aProjectile in MProjectiles)
             {
                 aProjectile.LoadContent(theContentManager);
             }
 
-            Position = new Vector2(START_POSITION_X, START_POSITION_Y);
-            base.LoadContent(theContentManager, SHIP_ASSETNAME);
+            Position = new Vector2(StartPositionX, StartPositionY);
+            LoadContent(theContentManager, ShipAssetname);
             Source = new Rectangle(0, 0, Source.Width, Source.Height);
 
         }
 
         public void Update(GameTime theGameTime, GraphicsDeviceManager graphics)
         {
-            fireTime += 0.1;
-            KeyboardState aCurrentKeyboardState = Keyboard.GetState();
+            _fireTime += 0.1;
+            var aCurrentKeyboardState = Keyboard.GetState();
 
             UpdateProjectile(theGameTime, aCurrentKeyboardState);
 
-            mPreviousKeyboardState = aCurrentKeyboardState;
+            _mPreviousKeyboardState = aCurrentKeyboardState;
 
-            base.Update(theGameTime, mSpeed, mDirection);
+            Update(theGameTime, mSpeed, mDirection);
         }
 
         private void UpdateProjectile(GameTime theGameTime, KeyboardState aCurrentKeyboardState)
         {
-            foreach (Projectile aProjectile in mProjectiles)
+            foreach (var aProjectile in MProjectiles)
             {
                 aProjectile.Update(theGameTime);
             }
 
-            if (aCurrentKeyboardState.IsKeyDown(Keys.Space) == true && fireTime >= fireRate  /*&& mPreviousKeyboardState.IsKeyDown(Keys.Space) == false*/)
-            {
-                fireTime = 0;
-                ShootProjectile();
-            }
+            if (aCurrentKeyboardState.IsKeyDown(Keys.Space) != true || !(_fireTime >= FireRate)) return;
+            _fireTime = 0;
+            ShootProjectile();
         }
 
         private void ShootProjectile()
         {
-            if (mCurrentState == State.Moving)
-            {
-                bool aCreateNew = true;
-                /*foreach (Projectile aProjectile in mProjectiles)
-                {
-                    if (aProjectile.Visible == false)
-                    {
-                        aCreateNew = false;
-                        aProjectile.Fire(Position + new Vector2(Size.Width / 4, Size.Height), new Vector2(-200, -200), new Vector2(0, 1));
-                        break;
-                    }
-                }*/
-
-                if (aCreateNew == true)
-                {
-                    Projectile aProjectile = new Projectile();
-                    aProjectile.isEnemyProjectile = true;
-                    aProjectile.LoadContent(mContentManager);
+            var aProjectile = new Projectile {IsEnemyProjectile = true};
+            aProjectile.LoadContent(_mContentManager);
                     
-                    aProjectile.Fire(Position + new Vector2(Size.Width / 4, Size.Height), new Vector2(-200, -200), new Vector2(0, 1));
-                    mProjectiles.Add(aProjectile);
-                }
-            }
+            aProjectile.Fire(Position + new Vector2(Size.Width / 4, Size.Height), new Vector2(-200, -200), new Vector2(0, 1));
+            MProjectiles.Add(aProjectile);
         }
 
         public override void Draw(SpriteBatch theSpriteBatch)
         {
-            foreach (Projectile aProjectile in mProjectiles)
+            foreach (Projectile aProjectile in MProjectiles)
             {
                 aProjectile.Draw(theSpriteBatch);
             }

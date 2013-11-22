@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Microsoft.Xna.Framework;
 
 namespace Tyrian_Remake
@@ -15,7 +14,7 @@ namespace Tyrian_Remake
         /// </summary>
         public PlayerIndexEventArgs(PlayerIndex playerIndex)
         {
-            this.playerIndex = playerIndex;
+            _playerIndex = playerIndex;
         }
 
 
@@ -24,9 +23,9 @@ namespace Tyrian_Remake
         /// </summary>
         public PlayerIndex PlayerIndex
         {
-            get { return playerIndex; }
+            get { return _playerIndex; }
         }
 
-        PlayerIndex playerIndex;
+        readonly PlayerIndex _playerIndex;
     }
 }

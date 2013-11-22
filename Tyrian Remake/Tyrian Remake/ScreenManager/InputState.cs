@@ -59,7 +59,7 @@ namespace Tyrian_Remake
         /// </summary>
         public void Update()
         {
-            for (int i = 0; i < MaxInputs; i++)
+            for (var i = 0; i < MaxInputs; i++)
             {
                 LastKeyboardStates[i] = CurrentKeyboardStates[i];
                 LastGamePadStates[i] = CurrentGamePadStates[i];
@@ -99,10 +99,9 @@ namespace Tyrian_Remake
                 // Read input from the specified player.
                 playerIndex = controllingPlayer.Value;
 
-                int i = (int)playerIndex;
+                var i = (int)playerIndex;
 
-                return (CurrentKeyboardStates[i].IsKeyDown(key) &&
-                        LastKeyboardStates[i].IsKeyUp(key));
+                return (CurrentKeyboardStates[i].IsKeyDown(key) && LastKeyboardStates[i].IsKeyUp(key));
             }
             else
             {
@@ -129,7 +128,7 @@ namespace Tyrian_Remake
                 // Read input from the specified player.
                 playerIndex = controllingPlayer.Value;
 
-                int i = (int)playerIndex;
+                var i = (int)playerIndex;
 
                 return (CurrentGamePadStates[i].IsButtonDown(button) &&
                         LastGamePadStates[i].IsButtonUp(button));

@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-
-namespace Tyrian_Remake
+﻿namespace Tyrian_Remake
 {
     /// <summary>
     /// The options screen is brought up over the top of the main menu
@@ -11,10 +9,10 @@ namespace Tyrian_Remake
     {
         #region Fields
 
-        MenuEntry ungulateMenuEntry;
-        MenuEntry languageMenuEntry;
-        MenuEntry frobnicateMenuEntry;
-        MenuEntry elfMenuEntry;
+        readonly MenuEntry _ungulateMenuEntry;
+        readonly MenuEntry _languageMenuEntry;
+        readonly MenuEntry _frobnicateMenuEntry;
+        readonly MenuEntry _elfMenuEntry;
 
         enum Ungulate
         {
@@ -23,14 +21,14 @@ namespace Tyrian_Remake
             Llama,
         }
 
-        static Ungulate currentUngulate = Ungulate.Dromedary;
+        static Ungulate _currentUngulate = Ungulate.Dromedary;
 
-        static string[] languages = { "C#", "French", "Deoxyribonucleic acid" };
-        static int currentLanguage = 0;
+        static readonly string[] Languages = { "C#", "French", "Deoxyribonucleic acid" };
+        static int _currentLanguage;
 
-        static bool frobnicate = true;
+        static bool _frobnicate = true;
 
-        static int elf = 23;
+        static int _elf = 23;
 
         #endregion
 
@@ -44,27 +42,27 @@ namespace Tyrian_Remake
             : base("Options")
         {
             // Create our menu entries.
-            ungulateMenuEntry = new MenuEntry(string.Empty);
-            languageMenuEntry = new MenuEntry(string.Empty);
-            frobnicateMenuEntry = new MenuEntry(string.Empty);
-            elfMenuEntry = new MenuEntry(string.Empty);
+            _ungulateMenuEntry = new MenuEntry(string.Empty);
+            _languageMenuEntry = new MenuEntry(string.Empty);
+            _frobnicateMenuEntry = new MenuEntry(string.Empty);
+            _elfMenuEntry = new MenuEntry(string.Empty);
 
             SetMenuEntryText();
 
-            MenuEntry back = new MenuEntry("Back");
+            var back = new MenuEntry("Back");
 
             // Hook up menu event handlers.
-            ungulateMenuEntry.Selected += UngulateMenuEntrySelected;
-            languageMenuEntry.Selected += LanguageMenuEntrySelected;
-            frobnicateMenuEntry.Selected += FrobnicateMenuEntrySelected;
-            elfMenuEntry.Selected += ElfMenuEntrySelected;
+            _ungulateMenuEntry.Selected += UngulateMenuEntrySelected;
+            _languageMenuEntry.Selected += LanguageMenuEntrySelected;
+            _frobnicateMenuEntry.Selected += FrobnicateMenuEntrySelected;
+            _elfMenuEntry.Selected += ElfMenuEntrySelected;
             back.Selected += OnCancel;
 
             // Add entries to the menu.
-            MenuEntries.Add(ungulateMenuEntry);
-            MenuEntries.Add(languageMenuEntry);
-            MenuEntries.Add(frobnicateMenuEntry);
-            MenuEntries.Add(elfMenuEntry);
+            MenuEntries.Add(_ungulateMenuEntry);
+            MenuEntries.Add(_languageMenuEntry);
+            MenuEntries.Add(_frobnicateMenuEntry);
+            MenuEntries.Add(_elfMenuEntry);
             MenuEntries.Add(back);
         }
 
@@ -74,10 +72,10 @@ namespace Tyrian_Remake
         /// </summary>
         void SetMenuEntryText()
         {
-            ungulateMenuEntry.Text = "Preferred ungulate: " + currentUngulate;
-            languageMenuEntry.Text = "Language: " + languages[currentLanguage];
-            frobnicateMenuEntry.Text = "Frobnicate: " + (frobnicate ? "on" : "off");
-            elfMenuEntry.Text = "elf: " + elf;
+            _ungulateMenuEntry.Text = "Preferred ungulate: " + _currentUngulate;
+            _languageMenuEntry.Text = "Language: " + Languages[_currentLanguage];
+            _frobnicateMenuEntry.Text = "Frobnicate: " + (_frobnicate ? "on" : "off");
+            _elfMenuEntry.Text = "elf: " + _elf;
         }
 
 
@@ -91,10 +89,10 @@ namespace Tyrian_Remake
         /// </summary>
         void UngulateMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            currentUngulate++;
+            _currentUngulate++;
 
-            if (currentUngulate > Ungulate.Llama)
-                currentUngulate = 0;
+            if (_currentUngulate > Ungulate.Llama)
+                _currentUngulate = 0;
 
             SetMenuEntryText();
         }
@@ -105,7 +103,7 @@ namespace Tyrian_Remake
         /// </summary>
         void LanguageMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            currentLanguage = (currentLanguage + 1) % languages.Length;
+            _currentLanguage = (_currentLanguage + 1) % Languages.Length;
 
             SetMenuEntryText();
         }
@@ -116,7 +114,7 @@ namespace Tyrian_Remake
         /// </summary>
         void FrobnicateMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            frobnicate = !frobnicate;
+            _frobnicate = !_frobnicate;
 
             SetMenuEntryText();
         }
@@ -127,7 +125,7 @@ namespace Tyrian_Remake
         /// </summary>
         void ElfMenuEntrySelected(object sender, PlayerIndexEventArgs e)
         {
-            elf++;
+            _elf++;
 
             SetMenuEntryText();
         }

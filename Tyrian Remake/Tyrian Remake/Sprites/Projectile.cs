@@ -8,22 +8,22 @@ namespace Tyrian_Remake.Sprites
 {
     class Projectile : Sprite
     {
-        const int MAX_DISTANCE = 500;
-        const float SPEED_MULTIPLIER = 2.0f;
+        const int MaxDistance = 500;
+        const float SpeedMultiplier = 2.0f;
 
         public bool Visible = false;
 
         public bool Disposable = false;
 
-        public bool isEnemyProjectile = false;
+        public bool IsEnemyProjectile = false;
 
-        Vector2 mStartPosition;
-        Vector2 mSpeed;
-        Vector2 mDirection;
+        Vector2 _mStartPosition;
+        Vector2 _mSpeed;
+        Vector2 _mDirection;
 
         public void LoadContent(ContentManager theContentManager)
         {
-            base.LoadContent(theContentManager, "projectile-1");
+            LoadContent(theContentManager, "projectile-1");
             Scale = 1.0f;
         }
 
@@ -34,34 +34,25 @@ namespace Tyrian_Remake.Sprites
                 Visible = false;
             }
 
-            if (Visible == true)
+            if (Visible)
             {
-                base.Update(theGameTime, mSpeed, mDirection);
+                Update(theGameTime, _mSpeed, _mDirection);
             }
         }
 
         public override void Draw(SpriteBatch theSpriteBatch)
         {
-            if (Visible == true && Disposable == false)
-            {
-                if (isEnemyProjectile == true)
-                {
-                    theSpriteBatch.Draw(mSpriteTexture, Position, Source, Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.FlipVertically, 0);
-                }
-                else
-                {
-                    theSpriteBatch.Draw(mSpriteTexture, Position, Source, Color.White, 0.0f, Vector2.Zero, Scale, SpriteEffects.None, 0);
-                    //base.Draw(theSpriteBatch);
-                }
-            }
+            if (!Visible || Disposable) return;
+            theSpriteBatch.Draw(MSpriteTexture, Position, Source, Color.White, 0.0f, Vector2.Zero, Scale,
+                IsEnemyProjectile ? SpriteEffects.FlipVertically : SpriteEffects.None, 0);
         }
 
         public void Fire(Vector2 theStartPosition, Vector2 theSpeed, Vector2 theDirection)
         {
             Position = theStartPosition;
-            mStartPosition = theStartPosition;
-            mSpeed = theSpeed * SPEED_MULTIPLIER;
-            mDirection = -theDirection;
+            _mStartPosition = theStartPosition;
+            _mSpeed = theSpeed * SpeedMultiplier;
+            _mDirection = -theDirection;
             Visible = true;
         }
     }

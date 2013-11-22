@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using Tyrian_Remake.Sprites;
 
 namespace Tyrian_Remake
 {
@@ -18,21 +19,21 @@ namespace Tyrian_Remake
     {
         #region Fields
 
-        ContentManager content;
-        SpriteFont gameFont;
+        ContentManager _content;
+        SpriteFont _gameFont;
 
-        float pauseAlpha;
+        float _pauseAlpha;
 
         //Textures
-        Texture2D mShipTexture;
-        Rectangle shipBodySourceRectangle;
+        Texture2D _mShipTexture;
+        Rectangle _shipBodySourceRectangle;
 
-        Sprites.PlayerShip mPlayerShipSprite;
-        Sprites.Projectile mProjectileSprite;
-        Sprites.BossTest mBossTestSprite;
+        PlayerShip _mPlayerShipSprite;
+        Projectile _mProjectileSprite;
+        BossTest _mBossTestSprite;
 
         //Game Music
-        SoundEffect GameMusic;
+        SoundEffect _gameMusic;
         public SoundEffectInstance GameMusicInstance;
 
         #endregion
@@ -55,32 +56,32 @@ namespace Tyrian_Remake
         /// </summary>
         public override void LoadContent()
         {
-            if (content == null)
-                content = new ContentManager(ScreenManager.Game.Services, "Content");
+            if (_content == null)
+                _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-            gameFont = content.Load<SpriteFont>("Downlink");
+            _gameFont = _content.Load<SpriteFont>("Downlink");
 
             //Load Ship
-            mShipTexture = content.Load<Texture2D>("ship-1");
+            _mShipTexture = _content.Load<Texture2D>("ship-1");
 
             //Default Ship State Texture
-            shipBodySourceRectangle = new Rectangle(96, 0, 48, 56);
+            _shipBodySourceRectangle = new Rectangle(96, 0, 48, 56);
 
-            mPlayerShipSprite = new Sprites.PlayerShip();
-            mProjectileSprite = new Sprites.Projectile();
+            _mPlayerShipSprite = new PlayerShip();
+            _mProjectileSprite = new Projectile();
 
-            mPlayerShipSprite.Scale = 1.0f;
-            mPlayerShipSprite.Source = shipBodySourceRectangle;
+            _mPlayerShipSprite.Scale = 1.0f;
+            _mPlayerShipSprite.Source = _shipBodySourceRectangle;
 
-            mBossTestSprite = new Sprites.BossTest();
+            _mBossTestSprite = new BossTest();
 
-            mProjectileSprite.LoadContent(content);
-            mPlayerShipSprite.LoadContent(content);
-            mBossTestSprite.LoadContent(content);
+            _mProjectileSprite.LoadContent(_content);
+            _mPlayerShipSprite.LoadContent(_content);
+            _mBossTestSprite.LoadContent(_content);
 
             //Game Music
-            GameMusic = content.Load<SoundEffect>("Rock Garden");
-            GameMusicInstance = GameMusic.CreateInstance();
+            _gameMusic = _content.Load<SoundEffect>("Rock Garden");
+            GameMusicInstance = _gameMusic.CreateInstance();
 
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
@@ -99,7 +100,7 @@ namespace Tyrian_Remake
         /// </summary>
         public override void UnloadContent()
         {
-            content.Unload();
+            _content.Unload();
         }
 
 
@@ -119,21 +120,21 @@ namespace Tyrian_Remake
             // Gradually fade in or out depending on whether we are covered by the pause screen.
             if (coveredByOtherScreen)
             {
-                pauseAlpha = Math.Min(pauseAlpha + 1f / 32, 1);
+                _pauseAlpha = Math.Min(_pauseAlpha + 1f / 32, 1);
             }
             else
             {
-                pauseAlpha = Math.Max(pauseAlpha - 1f / 32, 0);
+                _pauseAlpha = Math.Max(_pauseAlpha - 1f / 32, 0);
                 //play dat music
                 GameMusicInstance.Play();
             }
 
             if (IsActive)
             {
-                mPlayerShipSprite.Update(gameTime, ScreenManager.GraphicsDeviceManager);
-                mProjectileSprite.Update(gameTime);
+                _mPlayerShipSprite.Update(gameTime, ScreenManager.GraphicsDeviceManager);
+                _mProjectileSprite.Update(gameTime);
 
-                mBossTestSprite.Update(gameTime, ScreenManager.GraphicsDeviceManager);
+                _mBossTestSprite.Update(gameTime, ScreenManager.GraphicsDeviceManager);
 
                 //play dat music
                 if (GameMusicInstance.State != SoundState.Playing)
@@ -144,32 +145,31 @@ namespace Tyrian_Remake
                 }
 
                 //Do stuff
-                mPlayerShipSprite.isHit = false; mBossTestSprite.isHit = false;
+                _mPlayerShipSprite.IsHit = false; _mBossTestSprite.IsHit = false;
 
                 //Hit testing for enemy projectiles
-                foreach (Sprites.Projectile projectile in mBossTestSprite.mProjectiles)
+                foreach (var projectile in _mBossTestSprite.MProjectiles.Where(projectile => projectile.Visible).Where(
+                    projectile => CollisionDetection.IntersectPixels(
+                        _mPlayerShipSprite.BoundingRectangle,
+                        _mPlayerShipSprite.MSpriteTextureData,
+                        projectile.BoundingRectangle,
+                        projectile.MSpriteTextureData)))
                 {
-                    if (projectile.Visible == true)
-                    {
-                        if (CollisionDetection.IntersectPixels(mPlayerShipSprite.BoundingRectangle, mPlayerShipSprite.mSpriteTextureData, projectile.BoundingRectangle, projectile.mSpriteTextureData))
-                        {
-                            mPlayerShipSprite.isHit = true;
-                            projectile.Disposable = true;
-                        }
-                    }
+                    _mPlayerShipSprite.IsHit = true;
+                    projectile.Disposable = true;
                 }
 
                 //Hit testing for player projectiles
-                foreach (Sprites.Projectile projectile in mPlayerShipSprite.mProjectiles)
+                foreach (var projectile in _mPlayerShipSprite.MProjectiles.Where(
+                    projectile => projectile.Visible).Where(
+                    projectile => CollisionDetection.IntersectPixels(
+                        _mBossTestSprite.BoundingRectangle,
+                        _mBossTestSprite.MSpriteTextureData,
+                        projectile.BoundingRectangle,
+                        projectile.MSpriteTextureData)))
                 {
-                    if (projectile.Visible == true)
-                    {
-                        if (CollisionDetection.IntersectPixels(mBossTestSprite.BoundingRectangle, mBossTestSprite.mSpriteTextureData, projectile.BoundingRectangle, projectile.mSpriteTextureData))
-                        {
-                            mBossTestSprite.isHit = true;
-                            projectile.Disposable = true;
-                        }
-                    }
+                    _mBossTestSprite.IsHit = true;
+                    projectile.Disposable = true;
                 }
             }
         }
@@ -185,25 +185,21 @@ namespace Tyrian_Remake
                 throw new ArgumentNullException("input");
 
             // Look up inputs for the active player profile.
-            int playerIndex = (int)ControllingPlayer.Value;
+            if (ControllingPlayer == null) return;
+            var playerIndex = (int)ControllingPlayer.Value;
 
-            KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
-            GamePadState gamePadState = input.CurrentGamePadStates[playerIndex];
+            var keyboardState = input.CurrentKeyboardStates[playerIndex];
+            var gamePadState = input.CurrentGamePadStates[playerIndex];
 
             // The game pauses either if the user presses the pause button, or if
             // they unplug the active gamepad. This requires us to keep track of
             // whether a gamepad was ever plugged in, because we don't want to pause
             // on PC if they are playing with a keyboard and have no gamepad at all!
-            bool gamePadDisconnected = !gamePadState.IsConnected &&
-                                       input.GamePadWasConnected[playerIndex];
+            var gamePadDisconnected = !gamePadState.IsConnected && input.GamePadWasConnected[playerIndex];
 
             if (input.IsPauseGame(ControllingPlayer) || gamePadDisconnected)
             {
                 ScreenManager.AddScreen(new PauseMenuScreen(), ControllingPlayer);
-            }
-            else
-            {
-
             }
         }
 
@@ -217,21 +213,21 @@ namespace Tyrian_Remake
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,Color.Black, 0, 0);
 
             // Our player and enemy are both actually just text strings.
-            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
+            var spriteBatch = ScreenManager.SpriteBatch;
 
             spriteBatch.Begin();
 
             //Draw Player Ship here
-            mPlayerShipSprite.Draw(spriteBatch);
+            _mPlayerShipSprite.Draw(spriteBatch);
 
             //draw Boss test sprite
-            mBossTestSprite.Draw(spriteBatch);
+            _mBossTestSprite.Draw(spriteBatch);
 
-            if (mPlayerShipSprite.isHit) // Change the background to red when the player is hit by an enemy projectile
+            if (_mPlayerShipSprite.IsHit) // Change the background to red when the player is hit by an enemy projectile
             {
                 ScreenManager.GraphicsDevice.Clear(Color.DarkRed);
             }
-            else if (mBossTestSprite.isHit) // Change the background to green when the enemy is hit by a player projectile
+            else if (_mBossTestSprite.IsHit) // Change the background to green when the enemy is hit by a player projectile
             {
                 ScreenManager.GraphicsDevice.Clear(Color.DarkGreen);
             }
@@ -243,13 +239,12 @@ namespace Tyrian_Remake
             spriteBatch.End();
 
             // If the game is transitioning on or off, fade it out to black.
-            if (TransitionPosition > 0 || pauseAlpha > 0)
-            {
-                //Linear interpolation
-                float alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, pauseAlpha / 2);
+            if (!(TransitionPosition > 0) && !(_pauseAlpha > 0)) return;
 
-                ScreenManager.FadeBackBufferToBlack(alpha);
-            }
+            //Linear interpolation
+            var alpha = MathHelper.Lerp(1f - TransitionAlpha, 1f, _pauseAlpha / 2);
+
+            ScreenManager.FadeBackBufferToBlack(alpha);
         }
 
 
