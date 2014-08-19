@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="Beatles" Class="BeatlesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\SQLEXPRESS;AttachDbFilename=|DataDirectory|\Beatles.mdf;Integrated Security=True;User Instance=True" SettingsObjectName="Views.Properties.Settings" SettingsPropertyName="BeatlesConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Albums" Member="Albums">
+    <Type Name="Album">
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Year" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Cover" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Association Name="Album_Song" Member="Songs" OtherKey="AlbumID" Type="Song" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Songs" Member="Songs">
+    <Type Name="Song">
+      <Column Name="AlbumID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MusicID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Duration" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="Recording" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="RecordingPlace" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="Details" Type="System.String" DbType="VarChar(700)" CanBeNull="true" />
+      <Association Name="Album_Song" Member="Album" ThisKey="AlbumID" Type="Album" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>

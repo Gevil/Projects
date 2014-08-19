@@ -1,0 +1,81 @@
+WoWhead Parser - A Tool For Dataminers :)
+
+What it does: It basicly iterates through all of the item, creature or spell IDs in a preset range.
+If the ID exists it parses the page for known information marks then gets the data and outputs in SQL queries.
+
+Features:
+	CreatureStats:	-> Generalized, Commented, Redesigned Code	- Active						10%
+					-> Threading								- Basic							100%
+					-> Creature Min - Max Level					- Done							100%
+					-> Creature Min - Max Health				- Done							100%
+					-> Creature Min - Max Mana					- Done							100%
+					-> Creature Faction ID						- Done							100%
+					-> Creature Classification					- Done							100%
+					-> Creature Min - Max MoneyDrop				- Information Source Removed	0%
+	
+	CreatureVendor:	-> Vendor Parser GUI						- Started						50%
+	CreatureTrainer:-> Trainer Parser GUI						- Started						50%
+	
+	LootTemplates:	-> Creature Loot Parser GUI					- NYI							0%
+					-> Pickpocketing Loot Parser GUI			- NYI							0%
+					-> Prospecting Loot Parser GUI				- NYI							0%
+					-> Disenchant Loot Parser GUI				- NYI							0%
+					-> Fishing Loot Parser GUI					- NYI							0%
+					-> Skinning Loot Parser GUI					- NYI							0%
+
+ToDos:
+
+Item Parser:
+	item_template
+	item_enchantment_template
+	
+Loot Parser:
+	creature_loot_template
+	pickpocketing_loot_template
+	prospecting_loot_template
+	disenchant_loot_template
+	fishing_loot_template
+	skinning_loot_template
+
+Quest Information Parser:
+	quest_template
+	creature_involvedrelation
+	creature_questrelation
+	gameobject_involvedrelation
+	gameobject_questrelation
+
+Putput Method:
+	- Make it more configurable so the user can set what kind of output they want (txt, sql, html)
+	- Make the output method for SQL more 
+NOTES:
+
+creature stuffs
+
+profession trainer spell list identifier:
+			<div class="listview" id="lkljbjkb574">
+			
+class trainer spell list identifier:
+			
+			
+			
+			
+			
+			
+			
+			
+			
+Example script:
+
+new Listview({template: 'spell', id: 'teaches-recipe', name: 'Teaches', tabs: tabsRelated, parent: 'lkljbjkb574', visibleCols: ['source'], 
+data: [
+{id:3293,name:'4Copper Battle Axe',reagents:[[2840,12],[2880,2],[774,2],[3470,2],[2318,2]],skill:[164],cat:11,creates:[3488,1,1],source:[6],learnedat:35,colors:[,75,115]},
+{id:3324,name:'4Runed Copper Pants',reagents:[[2840,8],[2321,2],[3470,3]],skill:[164],cat:11,creates:[3473,1,1],source:[6],learnedat:45,colors:[,85,125]},
+{id:3294,name:'4Thick War Axe',reagents:[[2840,10],[2880,2],[2842,2],[3470,2],[2318,2]],skill:[164],cat:11,creates:[3489,1,1],source:[6],learnedat:70,colors:[,110,150]},
+{id:3326,name:'5Coarse Grinding Stone',reagents:[[2836,2]],skill:[164],cat:11,creates:[3478,1,1],source:[6],learnedat:75,colors:[,75,100]},
+
+new Listview({template: 'item', id: 'sells', name: 'Sells', tabs: tabsRelated, parent: 'lkljbjkb574', extraCols: [Listview.extraCols.cost], 
+data: [
+{id:5956,name:'5Blacksmith Hammer',level:1,reqlevel:1,dps:0.8,speed:2.00,source:[5],classs:2,subclass:14,stack:[1],avail:-1,cost:[18]},
+{id:3857,name:'5Coal',level:30,source:[2,5],classs:7,subclass:7,stack:[1],avail:-1,cost:[500]},
+{id:18567,name:'5Elemental Flux',level:60,source:[5],classs:7,subclass:7,stack:[1],avail:-1,cost:[150000]},
+{id:2901,name:'5Mining Pick',level:4,reqlevel:1,dps:1.5,speed:2.00,source:[5],classs:2,subclass:14,stack:[1],avail:-1,cost:[81]}]

@@ -1,0 +1,22 @@
+﻿<Window x:Class="eqDKP_Extractor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="eqDKP Extractor for Raid Watch 2" Height="159" Width="525">
+	<Grid Background="FloralWhite" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="141*" />
+            <ColumnDefinition Width="362*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+			<RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="30"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+        <Label Content="getDKP.php:" Margin="5,0,5,0" Padding="4,4" VerticalContentAlignment="Center" HorizontalAlignment="Right"/>
+        <TextBox Grid.Column="1" Margin="5,0,5,0" Padding="4,4" VerticalAlignment="Center" Name="txtAddress" Grid.ColumnSpan="2" TextChanged="txtAddress_TextChanged" />
+        <Button Grid.Row="1" Margin="5,0,5,0" Padding="4,4" VerticalAlignment="Center" HorizontalAlignment="Stretch" Content="Set AddOns Folder" Click="Button_ChangeTarget" />
+        <TextBox Grid.Row="1" Margin="5,0,5,0" Grid.Column="1" Padding="4,4" VerticalAlignment="Center" Name="txtTargetFolder" IsEnabled="False" />
+        <Button Grid.Row="2" Grid.ColumnSpan="2" Margin="5,0,5,0" Padding="4,4" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Button_Write">Write to File</Button>
+    </Grid>
+</Window>

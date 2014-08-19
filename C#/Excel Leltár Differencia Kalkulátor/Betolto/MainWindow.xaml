@@ -1,0 +1,52 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dxlc="http://schemas.devexpress.com/winfx/2008/xaml/layoutcontrol"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        x:Class="Betolto.MainWindow"
+        Title="Excel Adatfeldolgozó" Height="768" Width="1024"
+        dx:ThemeManager.ThemeName="MetropolisDark">
+    
+    <dxlc:LayoutControl >
+        <dxlc:LayoutGroup VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Header="Betöltés" Orientation="Vertical" View="GroupBox">
+            <dxlc:LayoutGroup Orientation="Horizontal">
+                <dxlc:LayoutGroup Height="125" Width="250" Header="Funkciók" View="GroupBox">
+                    <StackPanel HorizontalAlignment="Left">
+                        <Button Content="Betöltendő Excel file megnyitása" Height="26" x:Name="btnInput" Width="228" Click="btnInput_Click" />
+                        <Button Content="Cél Excel file megnyitása" Height="26" x:Name="btnOutput"  Width="228" Click="btnOutput_Click" />
+                        <Button Content="Leltár Adatok Feldolgozása" Height="26" x:Name="btnLoad" Width="228" Click="btnLoad_Click" />
+                    </StackPanel>
+                </dxlc:LayoutGroup>
+                <dxlc:LayoutGroup Height="125" Header="" Orientation="Vertical" View="GroupBox">
+                    <dxlc:LayoutGroup/>
+                    <dxlc:LayoutItem Label="Forrás Excel file: ">
+                        <dxe:TextEdit x:Name="txtInput"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutItem Label="Cél Excel file: " >
+                        <dxe:TextEdit x:Name="txtOutput"/>
+                    </dxlc:LayoutItem>
+                    <dxlc:LayoutGroup Orientation="Horizontal">
+                        <dxlc:LayoutItem Label="Munkalapok">
+                            <dxe:ComboBoxEdit Name="cmbSheets" ItemsSource="{Binding ExcelSheets}" SelectedIndexChanged="ComboBoxEdit_SelectedIndexChanged_1"/>
+                        </dxlc:LayoutItem>
+                        <dxlc:LayoutItem Label="Kezdő sor száma">
+                            <dxe:SpinEdit Name="spnStartingRow" Value="2"></dxe:SpinEdit>
+                        </dxlc:LayoutItem>
+                    </dxlc:LayoutGroup>
+                </dxlc:LayoutGroup>
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Header="Adatok" IsCollapsible="True" View="GroupBox" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <dxg:GridControl Name="dxgrid" ItemsSource="{Binding DtExcel}" AutoPopulateColumns="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                    <dxg:GridControl.View>
+                        <dxg:TableView Name="tbv" ShowTotalSummary="True" />
+                    </dxg:GridControl.View>
+                </dxg:GridControl>
+            </dxlc:LayoutGroup>
+            <dxlc:LayoutGroup Header="Log" IsCollapsible="True" View="GroupBox">
+                <dxe:TextEdit x:Name="txtLog" AcceptsReturn="True" HorizontalScrollBarVisibility="Auto" TextWrapping="NoWrap" Text="{Binding Log, IsAsync=True, Mode=OneWay}" VerticalScrollBarVisibility="Auto"/>
+            </dxlc:LayoutGroup>
+        </dxlc:LayoutGroup>
+    </dxlc:LayoutControl>
+</Window>

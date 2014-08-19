@@ -1,0 +1,28 @@
+﻿<Window x:Class="MinecraftServerWrapper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Minecraft Server Wrapper" Height="385" Width="788" Closing="Window_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Name="ConsoleScroll" Margin="10">
+            <TextBlock Name="ConsoleTextBlock" TextWrapping="Wrap" />
+        </ScrollViewer>
+        <TextBox Name="CommandTextBox" Height="24" Margin="10" Grid.Row="1" KeyDown="CommandTextBox_KeyDown" Grid.ColumnSpan="2" />
+        
+        <StackPanel Name="ButtonStackPanel" Margin="10" Width="100" Grid.Column="1" >
+            <Button Name="StartBtn" Height="24" Margin="0,0,0,4" Content="Start Server" Click="StartBtn_Click" />
+            <Button Name="StopBtn" Height="24" Margin="0,0,0,4" Content="Stop Server" Click="StopBtn_Click" />
+            <Button Name="SaveOnBtn" Height="24" Margin="0,0,0,4" Content="Auto-Save On" Click="SaveOnBtn_Click" />
+            <Button Name="SaveOffBtn" Height="24" Margin="0,0,0,4" Content="Auto-Save Off" Click="SaveOffBtn_Click" />
+            <Button Name="SaveAllBtn" Height="24" Margin="0,0,0,4" Content="Force Save" Click="SaveAllBtn_Click" />
+            <Button Name="SayBtn" Height="24" Margin="0,0,0,4" Content="Say It" Click="SayBtn_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

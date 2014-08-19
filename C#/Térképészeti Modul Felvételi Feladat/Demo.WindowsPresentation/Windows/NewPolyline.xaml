@@ -1,0 +1,56 @@
+﻿<Window x:Class="Demo.WindowsPresentation.Windows.NewPolyline"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Új Poligon Hozzáadása" Height="389" Width="347" Topmost="True">
+    <Grid>
+        <Label Content="Név:" Height="24" HorizontalAlignment="Left" Name="label1" VerticalAlignment="Top" Width="50" Margin="7,12,0,0" />
+        <Label Content="Réteg:" Height="24" HorizontalAlignment="Left" Margin="7,42,0,0" Name="label2" VerticalAlignment="Top" Width="50" />
+        <TextBox Height="24" HorizontalAlignment="Left" Margin="96,12,0,0" Name="txtPolygonName" VerticalAlignment="Top" Width="235" Text="Új Polygon" />
+        <Button Content="Koordináta Hozzáadása" Height="25" HorizontalAlignment="Left" Margin="176,327,0,0" Name="btnAddPointCoord" VerticalAlignment="Top" Width="155" Click="btnAddPointCoord_Click" />
+        <Button x:Name="btnAddPolygon" Content="Kezdőpont Hozzáadása" HorizontalAlignment="Left" Height="25" Margin="7,327,0,0" VerticalAlignment="Top" Width="140" Click="btnAddPolygon_Click"/>
+        <ListView x:Name="PolygonCoordinateList"
+        		ItemsSource="{Binding PolygonCollection, ElementName=This}" AllowDrop="True"
+        		HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectedValuePath="PolygonID" Margin="7,154,8,37">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Text="{Binding Lat}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <GridViewColumnHeader
+        						Tag="Lat" 
+        						Content="Lat"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Text="{Binding Lng}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <GridViewColumnHeader
+        						Tag="Lng" 
+        						Content="Lng"/>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ComboBox x:Name="cmbLayerList" HorizontalAlignment="Left" Height="24" Margin="96,42,0,0" VerticalAlignment="Top" Width="235"
+        	ItemsSource="{Binding DropDownValues}"
+        	SelectedValue="{Binding SelectedValue}"
+        	SelectedValuePath="Key"
+        	DisplayMemberPath="Value"/>
+        <Label Content="GEO:" HorizontalAlignment="Left" Height="24" Margin="7,70,0,0" VerticalAlignment="Top" Width="55"/>
+        <Label Content="Megjegyzés:" HorizontalAlignment="Left" Height="24" Margin="7,98,0,0" VerticalAlignment="Top" Width="84"/>
+        <TextBox Height="24" HorizontalAlignment="Left" Margin="96,70,0,0" x:Name="txtGEO" VerticalAlignment="Top" Width="235" />
+        <TextBox Height="24" HorizontalAlignment="Left" Margin="96,98,0,0" x:Name="txtNote" VerticalAlignment="Top" Width="235" />
+        <Label Content="Pozició:" HorizontalAlignment="Left" Height="24" Margin="8,126,0,0" VerticalAlignment="Top" Width="84"/>
+        <TextBox Height="24" HorizontalAlignment="Left" Margin="96,126,0,0" x:Name="txtPosition" VerticalAlignment="Top" Width="235" />
+        <Button x:Name="btnSavePolygon" Content="Mentés" HorizontalAlignment="Left" Height="23" Margin="8,328,0,0" VerticalAlignment="Top" Width="139" Click="btnSavePolygon_Click" Visibility="Hidden"/>
+    </Grid>
+</Window>

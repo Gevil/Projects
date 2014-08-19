@@ -1,0 +1,35 @@
+WoWhead Parser:
+
+Features:
+	CreatureStats:	-> Generalized, Commented, Redesigned Code	- Active						10%
+					-> Threading								- Basic							100%
+					-> Creature Min - Max Level					- Done							100%
+					-> Creature Min - Max Health				- Done							100%
+					-> Creature Min - Max Mana					- Done							100%
+					-> Creature Faction ID						- Done							100%
+					-> Creature Classification					- Done							100%
+					-> Creature Min - Max MoneyDrop				- Information Source Removed	0%
+	
+	CreatureVendor:	-> Vendor Parser GUI						- NYI							0%
+	
+	CreatureTrainer:-> Trainer Parser GUI						- NYI							0%
+	
+	CreatureLoot:	-> Creature Loot Parser GUI					- NYI							0%
+	
+ToDos:
+
+Item Parser:
+	item_template
+	random_enchantments
+	
+Loot Parser:
+	pickpocketing
+	prospecting
+	disenchanting
+	fishing
+
+Quest Information Parser:
+	quest_template
+	involvedrelation tables
+	questrelation tables
+

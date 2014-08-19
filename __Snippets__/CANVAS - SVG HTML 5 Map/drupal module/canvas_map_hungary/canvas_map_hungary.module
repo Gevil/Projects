@@ -1,0 +1,65 @@
+<?php
+/**
+ * Implements hook_help().
+ *
+ * Displays help and module information.
+ *
+ * @param path
+ *   Which path of the site we're using to display help
+ * @param arg
+ *   Array that holds the current path as returned from arg() function
+ */
+function canvas_map_hungary_help($path, $arg) {
+  switch ($path) {
+    case "admin/help#canvas_map_hungary":
+      return '<p>' . t("SVG Based Hungarian Map for search by Counties.") . '</p>';
+      break;
+  }
+} 
+
+/**
+ * Implements hook_block_info().
+ */
+function canvas_map_hungary_block_info() {
+  $blocks['canvas_map_hungary'] = array(
+    // The name that will appear in the block list.
+    'info' => t('Iroda kereső'),
+    // Default setting.
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+function canvas_map_hungary_contents(){
+	$output = '<div id="map"></div>';	
+	return $output;	
+}
+
+
+
+function canvas_map_hungary_block_view($delta = ''){
+	switch ($delta) {
+	case 'canvas_map_hungary':
+		$block['subject'] = t('Irodakereső');
+			if (user_access('access content')) {
+			$block['content'] = array(
+			'#markup' => canvas_map_hungary_contents(),
+			'#attached' => array(
+				'css' => array(
+					drupal_get_path('module', 'canvas_map_hungary') . '/css/style.css',
+					),
+				'js' => array(
+					drupal_get_path('module', 'canvas_map_hungary') . '/js/kinetic-v5.1.0.min.js',
+					drupal_get_path('module', 'canvas_map_hungary') . '/js/gameData.js',
+					drupal_get_path('module', 'canvas_map_hungary') . '/js/paths.js',
+					drupal_get_path('module', 'canvas_map_hungary') . '/js/coordinates.js',
+					drupal_get_path('module', 'canvas_map_hungary') . '/js/risk.js',
+					drupal_get_path('module', 'canvas_map_hungary') . '/js/assetManager.js',
+					drupal_get_path('module', 'canvas_map_hungary') . '/js/main.js',
+					),
+				),
+			);
+		}
+		return $block;
+	}
+}

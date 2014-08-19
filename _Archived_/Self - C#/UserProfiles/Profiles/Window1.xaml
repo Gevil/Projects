@@ -1,0 +1,37 @@
+﻿<Window x:Class="Profiles.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Profilok" Height="304" Width="382" Loaded="Window_Loaded">
+    <Grid Height="263" Width="359">
+        <TextBox Height="22" Margin="8,10,120,0" Name="textBox1" VerticalAlignment="Top" />
+        <Button Height="22" HorizontalAlignment="Right" Margin="0,10,8,0" Name="button1" VerticalAlignment="Top" Width="105" Click="button1_Click">Bejelentkezés</Button>
+        <ListBox Margin="8,65,8,20" Name="listBox1">
+            <!--<ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>
+                </Style>
+            </ListBox.ItemContainerStyle>-->
+            <StackPanel Margin="3">
+                <DockPanel >
+                    <TextBlock Text="Address: " Width="50"/>
+                    <TextBox Text="{Binding Address}" BorderThickness="0" Width="Auto" DockPanel.Dock="Right" />
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Margin="3">
+                <DockPanel >
+                    <TextBlock Text="Phone#: " Width="50"/>
+                    <TextBox Text="{Binding Phone}" BorderThickness="0" Width="Auto" DockPanel.Dock="Right"/>
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Margin="3">
+                <DockPanel >
+                    <TextBlock Text="Misc: " Width="50"/>
+                    <TextBox Text="{Binding Misc}" BorderThickness="0" Width="Auto" DockPanel.Dock="Right"/>
+                </DockPanel>
+            </StackPanel>
+        </ListBox>
+        <Button Height="23" Margin="0,36,8,0" Name="button2" VerticalAlignment="Top" HorizontalAlignment="Right" Width="150" Click="button2_Click">Adatok Mentése</Button>
+    </Grid>
+</Window>
+
+

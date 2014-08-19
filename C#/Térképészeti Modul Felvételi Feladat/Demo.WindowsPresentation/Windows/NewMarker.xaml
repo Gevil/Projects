@@ -1,0 +1,20 @@
+﻿<Window x:Class="Demo.WindowsPresentation.Windows.NewMarker"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Új Jelölés" Height="235" Width="400" Topmost="True" Loaded="OnLoaded">
+    <Grid>
+        <Label Content="Jelölés Neve:" HorizontalAlignment="Left" Height="24" Margin="8,8,0,0" VerticalAlignment="Top" Width="93"/>
+        <TextBox Name="txtMarkerName" HorizontalAlignment="Left" Height="24" Margin="105,8,0,0" TextWrapping="Wrap" Text="Új Jelölés" VerticalAlignment="Top" Width="193"/>
+        <Button Content="Hozzáadás" HorizontalAlignment="Left" Height="22" Margin="302,64,0,0" VerticalAlignment="Top" Width="83" Click="btnAddMarker_Click"/>
+        <Label Content="GEO:" HorizontalAlignment="Left" Height="24" Margin="8,36,0,0" VerticalAlignment="Top" Width="93"/>
+        <TextBox x:Name="txtGEO" HorizontalAlignment="Left" Height="24" Margin="105,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="193"/>
+        <Label Content="Megjegyzés:" HorizontalAlignment="Left" Height="24" Margin="8,90,0,0" VerticalAlignment="Top" Width="93"/>
+        <TextBox x:Name="txtNotes" HorizontalAlignment="Left" Height="110" Margin="105,90,0,0" TextWrapping="Wrap" Text=" " VerticalAlignment="Top" Width="280"/>
+        <Label Content="Réteg:" HorizontalAlignment="Left" Height="24" Margin="8,60,0,0" VerticalAlignment="Top" Width="93"/>
+        <ComboBox Name="cmbLayerList" HorizontalAlignment="Left" Height="22" Margin="105,64,0,0" VerticalAlignment="Top" Width="193"
+                  ItemsSource="{Binding DropDownValues}"
+                  SelectedValue="{Binding SelectedValue}"
+                  SelectedValuePath="Key"
+                  DisplayMemberPath="Value"></ComboBox>
+    </Grid> 
+</Window>

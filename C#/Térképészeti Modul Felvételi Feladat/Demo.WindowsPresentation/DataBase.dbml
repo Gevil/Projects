@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="DataSource" Class="DataBaseDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=GEVIL-MAIN;Integrated Security=True" SettingsObjectName="Demo.WindowsPresentation.Properties.Settings" SettingsPropertyName="DataSourceConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Polygons" Member="Polygons">
+    <Type Name="Polygon">
+      <Column Name="PolygonID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Lat" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="Lng" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="MarkerID" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Layers" Member="Layers">
+    <Type Name="Layer">
+      <Column Name="IsLayerShown" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="LayerName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="LayerID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LayerColor" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Markers" Member="Markers">
+    <Type Name="Marker">
+      <Column Name="MarkerName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MarkerLat" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="MarkerLng" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="MarkerNote" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="MarkerGEO" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="MarkerID" Type="System.Guid" DbType="UniqueIdentifier NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="LayerID" Type="System.String" DbType="VarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="MarkerType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

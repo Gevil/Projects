@@ -1,0 +1,4 @@
+name = Canvas Map - Hungary
+description = SVG Based Hungarian Map for search by Counties.
+core = 7.x
+

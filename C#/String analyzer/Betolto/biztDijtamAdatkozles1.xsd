@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ISO-8859-2"?>
+
+<!--
+  $Id: biztDijtamAdatkozles1.xsd,v 1.6 2012/06/08 20:22:04 fischerg Exp $
+ 
+  Copyright: (c) 2012
+  Company: Ulyssys Kft.  
+ -->
+<xsd:schema elementFormDefault="qualified" version="1.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="biztDijtamAdatkozles1">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="megbizottRegsz" type="number10" />
+        <xsd:element name="biztositoRegsz" type="number10" />
+        <xsd:element name="biztositoNeve" type="varchar50" />
+        <xsd:element name="biztositoCime" type="varchar50" />
+        <xsd:element maxOccurs="unbounded" name="kotvenyek" type="kotveny"></xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:complexType name="kotveny">
+    <xsd:sequence>
+      <xsd:element name="kotvenyszam" type="varchar20" />
+      <xsd:element maxOccurs="unbounded" name="szemelyek" type="szemely" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="szemely">
+    <xsd:sequence>
+      <xsd:element name="regsz" type="number10" />
+      <xsd:element name="tipus">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="1" />
+            <xsd:enumeration value="2" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="neve" type="varchar50" />
+      <xsd:element name="cim" type="varchar50" />
+      <xsd:element name="adoszam" type="number11" nillable="true" />
+      <xsd:element name="adoazonosito" type="number10" nillable="true" />
+      <xsd:element name="szulDatum" type="xsd:date" nillable="true" />
+      <xsd:element name="anyjaNeve" type="varchar50" nillable="true" />
+
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="dijAdatok" type="dijAdat" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="novenyek" type="noveny" />
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="dijAdat">
+    <xsd:sequence>
+      <xsd:element name="dijTipus" nillable="true">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="A" />
+            <xsd:enumeration value="B" />
+            <xsd:enumeration value="C" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:element>
+      <xsd:element name="dijEloiras" type="number10" nillable="true" />
+      <xsd:element name="csokkentDijEloiras" type="number10" nillable="true" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="noveny">
+    <xsd:sequence>
+      <xsd:element name="hasznositasiKod" type="varchar5" />
+      <xsd:element name="atlagHozam" type="number12_2" nillable="true" />
+      <xsd:element name="terulet" type="number12_4" nillable="true" />
+      <xsd:element minOccurs="0" maxOccurs="unbounded" name="blokkok" type="blokk" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="blokk">
+    <xsd:sequence>
+      <xsd:element name="blokkAzonosito" type="varchar10" nillable="true" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:simpleType name="number10">
+    <xsd:restriction base="xsd:decimal">
+      <xsd:fractionDigits value="0" />
+      <xsd:totalDigits value="10" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="number11">
+    <xsd:restriction base="xsd:decimal">
+      <xsd:fractionDigits value="0" />
+      <xsd:totalDigits value="11" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="number12_2">
+    <xsd:restriction base="xsd:decimal">
+      <xsd:fractionDigits value="2" />
+      <xsd:totalDigits value="12" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="number12_4">
+    <xsd:restriction base="xsd:decimal">
+      <xsd:fractionDigits value="4" />
+      <xsd:totalDigits value="12" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="varchar5">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="5" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="varchar10">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="10" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="varchar20">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="20" />
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="varchar50">
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="50" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+</xsd:schema>

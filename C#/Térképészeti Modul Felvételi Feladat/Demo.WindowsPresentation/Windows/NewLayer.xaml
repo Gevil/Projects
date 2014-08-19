@@ -1,0 +1,13 @@
+﻿<Window x:Class="Demo.WindowsPresentation.Windows.NewLayer"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:usercontrols="clr-namespace:Demo.WindowsPresentation.CustomControls"
+        Title="Réteg Hozzáadása" Height="105" Width="397" Topmost="True">
+    <Grid>
+        <Label Content="Réteg Neve:" Height="24" HorizontalAlignment="Left" Margin="9,13,0,0" Name="label1" VerticalAlignment="Top" Width="82" />
+        <Label Content="Szin:" Height="24" HorizontalAlignment="Left" Margin="9,43,0,0" Name="label2" VerticalAlignment="Top" Width="82" />
+        <TextBox Height="24" HorizontalAlignment="Left" Margin="97,13,0,0" Name="txtLayerName" VerticalAlignment="Top" Width="180" Text="Új Réteg" />
+        <usercontrols:BrushPickerComboControl x:Name="brushPicker" SelectedBrush="Black" Margin="97,43,0,0" Width="180" HorizontalAlignment="Left" VerticalAlignment="Top" Height="24"></usercontrols:BrushPickerComboControl>
+        <Button Content="Hozzáadás" Height="24" HorizontalAlignment="Left" Margin="306,43,0,0" Name="button1" VerticalAlignment="Top" Width="75" Click="btnAddLayer_Click" />
+    </Grid>
+</Window>

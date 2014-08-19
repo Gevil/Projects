@@ -1,0 +1,254 @@
+﻿<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:src="clr-namespace:Demo.WindowsPresentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" x:Class="Demo.WindowsPresentation.MainWindow"
+    Title="GIS MapViewer &amp; Layering Module"
+    Height="720" Width="1280"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    KeyboardNavigation.DirectionalNavigation="Once"
+    MinHeight="720" MinWidth="1280" KeyUp="Window_KeyUp" PreviewKeyDown="Window_PreviewKeyDown" Loaded="OnLoad">
+    <Window.Resources>
+        <Style x:Key="ZoomUpButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="23.5" />
+            <Setter Property="Height" Value="25.5" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Width="23.5" Height="25.5">
+                            <Image Source="/Demo.WindowsPresentation;component/Resources/zoom+.png" Stretch="Fill" />
+                            <ContentPresenter HorizontalAlignment="Center" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect ShadowDepth="2" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ZoomDownButton" TargetType="{x:Type Button}">
+            <Setter Property="Width" Value="23.5" />
+            <Setter Property="Height" Value="25.5" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid Width="23.5" Height="25.5">
+                            <Image Source="/Demo.WindowsPresentation;component/Resources/zoom-.png" Stretch="Fill" />
+                            <ContentPresenter HorizontalAlignment="Center" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect ShadowDepth="2" />
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <GroupBox x:Name="mapgroup"  Header="Térkép" Margin="185,148,56,20" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+            <src:Map x:Name="MainMap" Zoom="13" MaxZoom="17" MinZoom="1" />
+        </GroupBox>
+
+        <GroupBox HorizontalAlignment="Stretch" x:Name="groupBox5" VerticalAlignment="Top" Height="150" HorizontalContentAlignment="Stretch">
+            <Grid VerticalAlignment="Top">
+                <GroupBox Header="Navigáció" Height="141" Margin="0,3,0,0" x:Name="grpNavigation" VerticalAlignment="Top" HorizontalAlignment="Left" Width="315">
+                    <Grid>
+                        <Button Content="Újratöltés" Height="24" HorizontalAlignment="Left" Margin="7,92,0,0" x:Name="btnReloadMap" VerticalAlignment="Top" Width="64" />
+                        <TextBox Height="24" HorizontalAlignment="Left" Margin="78,7,0,0" x:Name="textBoxLat" VerticalAlignment="Top" Width="217" />
+                        <TextBox Height="24" HorizontalAlignment="Left" Margin="78,33,0,0" x:Name="textBoxLng" VerticalAlignment="Top" Width="217" />
+                        <TextBox Height="24" HorizontalAlignment="Left" Margin="78,61,0,0" x:Name="textBoxGeo" Text="Magyarország Siklós" VerticalAlignment="Top" Width="217" />
+                        <Button Content="Ugrás Koordinátákra" Height="24" HorizontalAlignment="Left" Margin="77,92,0,0" x:Name="btnGoTo" VerticalAlignment="Top" Width="126" />
+                        <Label Content="Szélesség:" Height="24" HorizontalAlignment="Left" Margin="7,5,0,0" x:Name="label2" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="78" />
+                        <Label Content="Hosszúság:" Height="24" HorizontalAlignment="Left" Margin="7,33,0,0" x:Name="label3" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="78" />
+                        <Label Content="Hely:" Height="24" HorizontalAlignment="Left" Margin="7,61,0,0" x:Name="label4" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="64" />
+                        <Button Content="Hely Keresése" Height="24" HorizontalAlignment="Left" Margin="211,92,0,0" x:Name="btnSearchGeo" VerticalAlignment="Top" Width="84" Click="btnSearchGeo_Click" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Rajzolás" Height="141" HorizontalAlignment="Left" Margin="321,3,0,0" x:Name="grpDrawing" VerticalAlignment="Top" Width="109">
+                    <Grid>
+                        <Button Content="Új Poligon" Height="22" Margin="8,8,8,0" x:Name="btnNewPolygon" VerticalAlignment="Top" Click="btnNewPolygon_Click" />
+                        <Button Content="Új Réteg" Height="22" HorizontalAlignment="Left" Margin="8,91,0,0" Name="btnNewLayer" VerticalAlignment="Top" Width="81" Click="btnNewLayer_Click" />
+                        <Button Content="Új Polyline" Height="22" HorizontalAlignment="Left" Margin="8,34,0,0" x:Name="btnNewPolyline" VerticalAlignment="Top" Width="81" Click="btnNewPolyline_Click" />
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Útvonaltervezés" HorizontalAlignment="Left" x:Name="routes" Width="157" Margin="1095,1,0,0" Height="141" VerticalAlignment="Top">
+                    <Grid>
+                        <Button x:Name="btn" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="129" Click="button11_Click" Margin="8,8,0,87.213" Content="Kezdőpont Megjelölése"/>
+                        <Button HorizontalAlignment="Left" x:Name="button9" Width="129" VerticalAlignment="Stretch" Click="btnEndRoute_Click" Margin="8,45,0,48.04" Content="Végpont Megjelölése"/>
+                        <Button x:Name="button12" VerticalAlignment="Stretch" Click="btnAddRoute_Click" HorizontalAlignment="Left" Width="129" Margin="8,87.214,0,8" Content="Útvonal Tervezése"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Jelölések" HorizontalAlignment="Left" x:Name="markers" Width="180" Margin="911,1,0,0" Height="141" VerticalAlignment="Top">
+                    <Grid>
+                        <Button Margin="7,8,8,0" x:Name="button8" Height="22.04" VerticalAlignment="Top" Click="btnAddMarker_Click" Content="Jelölés Hozzáadása"/>
+                        <Button Margin="8,0,0,6" x:Name="button10" Height="25.04" VerticalAlignment="Bottom" Click="btnClearMarkers_Click" HorizontalAlignment="Left" Width="152" Content="Minden Törlése"/>
+                        <CheckBox HorizontalAlignment="Right" Margin="0,43.04,55,0" x:Name="checkBoxPlace" Width="105" Height="16.04" VerticalAlignment="Top" IsChecked="True" Content="GEO Információ"/>
+                        <Button Margin="8,0,8,31.04" x:Name="button13" Height="21.04" VerticalAlignment="Bottom" Click="btnCenterView_Click" Content="Zoom Center" Visibility="Hidden"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Tároló" Height="142" HorizontalAlignment="Left" x:Name="groupBox4" VerticalAlignment="Top" Width="168" Margin="433,2,0,0">
+                    <Grid>
+                        <Button Margin="0,0,8,5.758" x:Name="button3" Click="btnPrefetch_Click" Height="22" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="142" Content="Prefetch"/>
+                        <Button Height="22" HorizontalAlignment="Left" Margin="6,0,0,31.758" x:Name="button4" VerticalAlignment="Bottom" Width="142" Click="btnClearCache_Click" Content="Tároló kiüritése"/>
+                        <Button HorizontalAlignment="Right" Margin="0,42,8,0" x:Name="button5" Width="69" Click="btnImport_Click" Height="22.455" VerticalAlignment="Top" Content="Importálás" RenderTransformOrigin="0.117,1.461"/>
+                        <Button HorizontalAlignment="Left" Margin="8,42,0,0" x:Name="button6" Width="66" VerticalContentAlignment="Center" Click="btnExport_Click" Height="22.455" VerticalAlignment="Top" Content="Exportálás"/>
+                        <CheckBox Height="15" Margin="6,7,0,0" x:Name="checkBoxCacheRoute" VerticalAlignment="Top" Checked="checkBoxCacheRoute_Checked" Unchecked="checkBoxCacheRoute_Checked" HorizontalAlignment="Left" Width="78" Content="Útvonalak"/>
+                        <CheckBox Height="15" HorizontalAlignment="Right" Margin="0,26,72,0" x:Name="checkBoxGeoCache" VerticalAlignment="Top" Width="78" Checked="checkBoxGeoCache_Checked" Content="GEO Kódok"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Térkép" HorizontalAlignment="Left" Margin="610,2,0,0" x:Name="groupBox2" Width="297" VerticalAlignment="Top" Height="141">
+                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <ComboBox FontSize="12" Margin="83,7,0,0" x:Name="comboBoxMapType" Height="24" VerticalAlignment="Top" HorizontalAlignment="Left" Width="196" SelectedItem="{Binding MapProvider, ElementName=MainMap}"/>
+                        <Label HorizontalAlignment="Right" Margin="0,7,206,0" x:Name="label1" Width="75" Height="24" VerticalAlignment="Top" Content="Szolgáltató:"/>
+                        <CheckBox Margin="6,0,172,9" x:Name="checkBoxDragMap" IsChecked="True" Height="20" VerticalAlignment="Bottom" Checked="chkDragMap_Checked" Unchecked="chkDragMap_Unchecked" Content="Térkép Görgetés"/>
+                        <CheckBox Height="20" Margin="6,0,172,35" IsChecked="True" x:Name="checkBoxCurrentMarker" VerticalAlignment="Bottom" Checked="chkCurrentMarker_Checked" Unchecked="chkCurrentMarker_Unchecked" Content="Aktuális Jelölés"/>
+                        <ComboBox FontSize="12" Height="24" Margin="83,33,0,0" x:Name="comboBoxMode" VerticalAlignment="Top" DropDownClosed="cmbMode_DropDownClosed" HorizontalAlignment="Left" Width="196" />
+                        <Label Height="24" HorizontalAlignment="Right" Margin="0,33,206,0" x:Name="label5" VerticalAlignment="Top" Width="75" Content="Mód"/>
+                        <Button Height="24" HorizontalAlignment="Right" x:Name="btnSave" VerticalAlignment="Bottom" Width="162" Margin="0,0,4,5" Content="Nézet Mentése" Click="btnSaveView_Click"/>
+                        <CheckBox Height="20" Margin="0,0,94,35" x:Name="checkBoxDebug" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="72" Checked="chkEnableGrid_Checked" Unchecked="chkEnableGrid_Unchecked" Content="Rácsozás"/>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox HorizontalAlignment="Right" VerticalAlignment="Stretch" Header="Zoom" Margin="0,148,0,20">
+            <Grid>
+                <Button x:Name="czuZoomUp" Style="{StaticResource ZoomUpButton}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="23.5" Height="25.5" Click="czuZoomUp_Click" />
+                <Slider Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Stretch" Maximum="17" Minimum="12" Value="{Binding Zoom, ElementName=MainMap}" TickPlacement="Both" Margin="0,35,0,35" SmallChange="1" x:Name="sliderZoom" ValueChanged="sliderZoom_ValueChanged" />
+                <Button Style="{StaticResource ZoomUpButton}" x:Name="czuZoomDown" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="23" Height="25" Click="czuZoomDown_Click" />
+            </Grid>
+        </GroupBox>
+        <StatusBar HorizontalAlignment="Stretch" x:Name="stbStatus" VerticalAlignment="Bottom" Height="20" VerticalContentAlignment="Center" >
+            <StatusBar.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ItemsPanelTemplate>
+            </StatusBar.ItemsPanel>
+            <StatusBarItem Grid.Column="1">
+                <TextBlock x:Name="txtStatus_Field"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="2">
+                <TextBlock x:Name="txtStatus_LoadTime"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="2">
+                <ProgressBar x:Name="progressBar1" IsIndeterminate="True"  Width="165" Height="18"/>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="3">
+                <TextBlock x:Name="txtStatus_Latitude"><Run Text="Szélesség:"/></TextBlock>
+            </StatusBarItem>
+            <StatusBarItem Grid.Column="4">
+                <TextBlock x:Name="txtStatus_Longitude"><Run Text="Hosszúság:"/></TextBlock>
+            </StatusBarItem>
+        </StatusBar>
+        <GroupBox Header="Rétegek" HorizontalAlignment="Left" x:Name="grpLayers" Width="185" Margin="0,148,0,20">
+            <Grid>
+                <TabControl>
+                    <TabItem Header="Rétegek">
+                        <Grid>
+                            <ListView x:Name="LayerListView"
+        		ItemsSource="{Binding LayerCollection, ElementName=This}" AllowDrop="True" 
+        		HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectedValuePath="LayerID">
+                                <ListView.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Új Réteg Hozzáadása" Click="MenuNewLayer_Click"/>
+                                        <MenuItem Header="Réteg Szerkesztése" Click="MenuEditLayer_Click"/>
+                                        <MenuItem Header="Réteg Törlése" Click="MenuDeleteLayer_Click"/>
+                                    </ContextMenu>
+                                </ListView.ContextMenu>
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Width="25">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <CheckBox IsChecked="{Binding IsLayerShown}"  Checked="chkLayerEnabled_Checked" Unchecked="chkLayerEnabled_Unchecked"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                            <GridViewColumnHeader
+        						Tag="IsLayerShown" 
+        						Content=""/>
+                                        </GridViewColumn>
+                                        <GridViewColumn Width="165">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <TextBlock Text="{Binding LayerName}"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                            <GridViewColumnHeader
+        						Tag="LayerName" 
+        						Content="Rétegnév" />
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Markerek">
+                        <Grid>
+                            <ComboBox x:Name="cmbLayerList" Height="22" VerticalAlignment="Top"  SelectionChanged="cmbLayerList_SelectionChanged"
+                                      SelectedValuePath="LayerID"
+                                      DisplayMemberPath="LayerName"/>
+                            <ListView x:Name="MarkerListView"
+        		ItemsSource="{Binding MarkerCollection, ElementName=This}" AllowDrop="True" SelectedValuePath="MarkerID"
+        		HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,26,0,0">
+                                <ListView.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Új Marker" Click="MenuNewMarker_Click"/>
+                                        <MenuItem Header="Marker Szerkesztése" Click="MenuEditMarker_Click"/>
+                                        <MenuItem Header="Marker Törlése" Click="MenuDeleteMarker_Click"/>
+                                    </ContextMenu>
+                                </ListView.ContextMenu>
+                                <ListView.View>
+                                    <GridView>
+                                        <GridViewColumn Width="165">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <TextBlock Text="{Binding MarkerName}"/>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                            <GridViewColumnHeader
+        						Tag="MarkerName" 
+        						Content="Név" />
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</Window>

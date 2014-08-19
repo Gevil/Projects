@@ -1,0 +1,170 @@
+8
+
+dir
+1
+https://opensvn.csie.org/Greatestevil/C%23/parser/WoWHeadParser
+https://opensvn.csie.org/Greatestevil
+
+
+
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+
+
+svn:special svn:externals svn:needs-lock
+
+WoWHeadParser_TemporaryKey.pfx
+file
+2
+
+
+
+2007-10-03T01:30:01.453125Z
+6a3781656ef16751e122643a6263cdeb
+2007-10-03T01:36:09.082305Z
+2
+Greatestevil
+has-props
+
+todo.txt
+file
+2
+
+
+
+2007-10-03T01:30:02.250000Z
+77aca8cb397a92f6c712ebab2ec85222
+2007-10-03T01:36:09.082305Z
+2
+Greatestevil
+
+Main.Designer.cs
+file
+
+
+
+
+2007-09-26T18:04:37.437500Z
+cf513405a58170fcde56566edadd77c2
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+
+WoWHeadParser.csproj.user
+file
+2
+
+
+
+2007-10-03T01:30:49.875000Z
+9387a7412530ae2df29ac40aea31eff1
+2007-10-03T01:36:09.082305Z
+2
+Greatestevil
+
+Main.cs
+file
+
+
+
+
+2007-09-30T01:44:53.203125Z
+f36a07e760a93e49e40c8085a6b935d4
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+
+ToDoList.htm
+file
+
+
+
+
+2007-10-03T01:31:50.359375Z
+2781a2d139d97d90a6939320d93655e3
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+
+CreatureStats.Designer.cs
+file
+
+
+
+
+2007-10-02T02:28:06.453125Z
+799af982ae21ba60f542801688879099
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+
+Properties
+dir
+
+CreatureStats.cs
+file
+
+
+
+
+2007-10-02T18:47:13.859375Z
+1d7b127bc7aad1389716427359964977
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+
+Main.resx
+file
+
+
+
+
+2007-09-26T18:04:37.500000Z
+f094a5f29636c573cfe76bfeb6501071
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+
+bin
+dir
+
+CreatureStats.resx
+file
+
+
+
+
+2007-10-02T02:05:26.093750Z
+ff1806b9bdf65949fa942343b8a13e78
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+
+obj
+dir
+
+WoWHeadParser.csproj
+file
+2
+
+
+
+2007-10-03T01:30:49.859375Z
+58c2bf6e738691b0e330f51764a597ee
+2007-10-03T01:36:09.082305Z
+2
+Greatestevil
+
+Program.cs
+file
+
+
+
+
+2007-09-25T16:05:23.109375Z
+7ff4f9a677f1de3296197b77f59166da
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+

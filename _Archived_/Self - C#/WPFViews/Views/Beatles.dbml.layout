@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Beatles">
+  <DataContextMoniker Name="/BeatlesDataContext" />
+  <nestedChildShapes>
+    <classShape Id="46b4e237-f512-4130-89d6-69a412a00801" absoluteBounds="0.75, 1.25, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/BeatlesDataContext/Album" />
+      <nestedChildShapes>
+        <elementListCompartment Id="5e7825cc-09f0-4632-81f5-4ff5e5051841" absoluteBounds="0.765, 1.71, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="d37964f8-4899-4d51-9ce7-01f2b089498b" absoluteBounds="3.5, 0.875, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/BeatlesDataContext/Song" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9a61ccf5-14d0-4b82-bcf7-7c7b6a0c460f" absoluteBounds="3.515, 1.335, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 2.03929768880208); (3.5 : 2.03929768880208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/BeatlesDataContext/Album/Album_Song" />
+      <nodes>
+        <classShapeMoniker Id="46b4e237-f512-4130-89d6-69a412a00801" />
+        <classShapeMoniker Id="d37964f8-4899-4d51-9ce7-01f2b089498b" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

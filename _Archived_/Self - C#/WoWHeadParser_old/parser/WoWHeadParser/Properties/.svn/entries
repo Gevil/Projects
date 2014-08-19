@@ -1,0 +1,88 @@
+8
+
+dir
+1
+https://opensvn.csie.org/Greatestevil/C%23/parser/WoWHeadParser/Properties
+https://opensvn.csie.org/Greatestevil
+
+
+
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+
+
+svn:special svn:externals svn:needs-lock
+
+AssemblyInfo.cs
+file
+2
+
+
+
+2007-10-03T01:30:02.265625Z
+72a73529f59ac05b44ce70cb5e47a16f
+2007-10-03T01:36:09.082305Z
+2
+Greatestevil
+
+Settings.settings
+file
+
+
+
+
+2007-09-25T16:03:02.437500Z
+8c0f00d7d9b0046695a0255f1b11b061
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+
+Settings.Designer.cs
+file
+
+
+
+
+2007-09-25T16:03:04.875000Z
+35670f0d081ff21913aa16710974c6f0
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+
+app.manifest
+file
+2
+
+
+
+2007-10-03T01:30:02.031250Z
+e9c325c0bcc6589738a5a81e5385b428
+2007-10-03T01:36:09.082305Z
+2
+Greatestevil
+
+Resources.resx
+file
+
+
+
+
+2007-09-25T16:03:04.812500Z
+0cd8c971317d19bbed44757809bcb92b
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+
+Resources.Designer.cs
+file
+
+
+
+
+2007-09-25T16:03:04.843750Z
+df1f0370d0063ab03fb225136642dbc7
+2007-10-03T01:00:24.433182Z
+1
+Greatestevil
+
