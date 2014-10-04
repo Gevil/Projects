@@ -1,0 +1,235 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Helpers1="clr-namespace:BraveNewWorld.Helpers">
+
+    <Helpers1:MapDataTemplateSelector x:Key="customerDataTemplateSelector"/>
+    <Helpers1:MapPointToPointConverter x:Key="MapPointToPointConverter"/>
+    
+    <DataTemplate x:Key="OceanZone">
+        <Canvas>
+        <Ellipse
+            Fill="Navy"
+            Height="4"
+            Width="4"
+            Margin="-2"
+            StrokeThickness="1"
+            Stroke="Navy"/>
+        <Polygon x:Name="poly" Visibility="Collapsed" Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                             Stroke="Black" Fill="Navy" />
+        </Canvas>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}},Path=IsSelected}" Value="True">
+                <Setter TargetName="poly" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="LandZone">
+        <Canvas>
+        <Ellipse
+            Fill="Orange"
+            Height="2"
+            Width="2"
+            Margin="-1"
+            StrokeThickness="1"
+            Stroke="Orange"/>
+        <Polygon x:Name="poly" Visibility="Collapsed" Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                             Stroke="Black" Fill="Yellow" />
+        </Canvas>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}},Path=IsSelected}" Value="True">
+                <Setter TargetName="poly" Property="Visibility" Value="Visible"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PaintOceanZone">
+        <Polygon x:Name="poly" Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                            Stroke="Black" Fill="Navy" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PaintWaterZone">
+        <Polygon x:Name="poly" Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                            Stroke="Black" Fill="Blue" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PaintLandZone">
+        <Polygon x:Name="poly" Opacity="{Binding Elevation}" Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                            Stroke="Black" Fill="Brown" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PaintLandCoastZone">
+        <Polygon x:Name="poly" Opacity="{Binding Elevation}" Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                            Stroke="Black" Fill="Green" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="PaintSeaCoastZone">
+        <Polygon x:Name="poly" Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                            Stroke="Black" Fill="Aqua" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="CoastEdge">
+        <Line 
+            X2="{Binding Path=DiffX}" Y2="{Binding Path=DiffY}"
+            Stroke="Beige" StrokeStartLineCap="Round" StrokeEndLineCap="Round" 
+            StrokeThickness="3"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="Edge">
+        <Line 
+            X2="{Binding Path=DiffX}" Y2="{Binding Path=DiffY}"
+            Stroke="Black"
+            StrokeThickness="1"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RiverEdge">
+        <Line 
+            X2="{Binding Path=DiffX}" Y2="{Binding Path=DiffY}"
+            Stroke="Blue" StrokeStartLineCap="Round" StrokeEndLineCap="Round" 
+            StrokeThickness="{Binding River}"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="Corner">
+        <Ellipse 
+            Fill="BlueViolet"
+            Height="2"
+            Width="2"
+            Margin="-1"/>
+        <!--<TextBlock Text="{Binding Path=Elevation, StringFormat=F2}" Margin="-2" FontSize="5" Background="Black" Foreground="Yellow"/>-->
+    </DataTemplate>
+
+    <DataTemplate x:Key="CoastCorner">
+        <Ellipse 
+            Fill="Beige"
+            Height="4"
+            Width="4"
+            Margin="-2"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="RiverCorner">
+        <Ellipse 
+            Fill="Blue"
+            Height="2"
+            Width="2"
+            Margin="-1"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="LandCorner">
+        <Ellipse 
+            Fill="Brown"
+            Height="4"
+            Width="4"
+            Margin="-2"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="WaterCorner">
+        <Ellipse 
+            Fill="Blue"
+            Height="4"
+            Width="4"
+            Margin="-2"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="Ocean">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#363661" />
+                <!--Fill="#1a1a3e" />-->
+    </DataTemplate>
+
+    <DataTemplate x:Key="ShallowWater">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#364671" />
+        <!--Fill="#1a1a3e" />-->
+    </DataTemplate>
+
+    <DataTemplate x:Key="Marsh">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#c4ccbb" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="Ice">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="AliceBlue" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="Lake">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#364671" />
+        <!--<DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}},Path=IsSelected}" Value="True">
+                <Setter Property="Opacity" Value="0.2"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>-->
+    </DataTemplate>
+
+    <DataTemplate x:Key="Beach">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#ac9f8b" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="Snow">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="White" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="Tundra">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#c4ccbb" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="Bare">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#bbbbbb" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="Scorched">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#999999" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="Taiga">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#ccd4bb" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="Shrubland">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#99a68b" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="TemperateDesert">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#e4e8ca" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="TemperateRainForest">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#a4c4a8" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="TemperateDeciduousForest">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#b4c9a9" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="Grassland">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#99b470" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="TropicalRainForest">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#9cbba9" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="TropicalSeasonalForest">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#558b70" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="SubtropicalDesert">
+        <Polygon Points="{Binding Converter={StaticResource MapPointToPointConverter}}"
+                 Fill="#e9ddc7" />
+    </DataTemplate>
+
+
+</ResourceDictionary>

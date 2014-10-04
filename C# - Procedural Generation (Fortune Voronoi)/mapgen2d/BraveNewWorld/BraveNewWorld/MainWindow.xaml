@@ -1,0 +1,69 @@
+﻿<Window x:Class="BraveNewWorld.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Helpers="clr-namespace:BraveNewWorld.Helpers" xmlns:UserControls="clr-namespace:BraveNewWorld.UserControls" Title="BraveNewWorld" Height="350" Width="525">
+    <Window.Resources>
+        <Helpers:MapDataTemplateSelector x:Key="MapDataTemplateSelector"/>
+
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+        </Style>
+    </Window.Resources>
+    <DockPanel LastChildFill="True">
+        <DockPanel DockPanel.Dock="Left" Width="200" LastChildFill="True">
+            <StackPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" Orientation="Horizontal">
+                <TextBox Margin="10" Height="23" Name="DotInput" Width="46" />
+                <Button Margin="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Fortune's Voronoi" Height="23" Name="button1" Click="LoadMapStuff" Width="114" />
+            </StackPanel>
+
+            <UserControls:CenterDetails DockPanel.Dock="Top" DataContext="{Binding ElementName=MainContainer,Path=SelectedItem}"></UserControls:CenterDetails>
+
+        </DockPanel>
+        <Viewbox>
+            <Border Margin="50" VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Black" BorderThickness="0">
+                <Grid x:Name="MainGrid">
+                    <!--<Grid.LayoutTransform>
+                                <TransformGroup>
+                                    <SkewTransform CenterX="200" CenterY="200" AngleX="30" AngleY="0" />
+                                    <RotateTransform Angle="-30" />
+                                </TransformGroup>
+                            </Grid.LayoutTransform>-->
+
+                    <ListBox x:Name="MainContainer" 
+                             ItemTemplateSelector="{StaticResource MapDataTemplateSelector}">
+                        <ListBox.Style>
+                            <Style>
+                                <Style.Resources>
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                                </Style.Resources>
+                            </Style>
+                        </ListBox.Style>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas Width="400" Height="400" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Canvas.Left" Value="{Binding Path=Point.X}" />
+                                <Setter Property="Canvas.Top" Value="{Binding Path=Point.Y}" />
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ListBox>
+
+                    <UserControls:ZoneBorders DataContext="{Binding ElementName=MainContainer,Path=SelectedItem}"></UserControls:ZoneBorders>
+                    <UserControls:ZoneDots DataContext="{Binding ElementName=MainContainer,Path=SelectedItem}"></UserControls:ZoneDots>
+
+
+                    
+
+                </Grid>
+            </Border>
+        </Viewbox>
+    </DockPanel>
+</Window>

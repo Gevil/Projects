@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="BraveNewWorld.UserControls.CenterDetails"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" >
+    <StackPanel Orientation="Vertical">
+        <CheckBox IsChecked="{Binding Land}" Content="Land" Margin="5" />
+        <CheckBox IsChecked="{Binding Ocean}" Content="Ocean" Margin="5" />
+        <CheckBox IsChecked="{Binding Water}" Content="Water" Margin="5" />
+        <CheckBox IsChecked="{Binding Coast}" Content="Coast" Margin="5" />
+        <CheckBox IsChecked="{Binding Border}" Content="Border" Margin="5" />
+
+        <TextBlock Text="{Binding Biome}" Margin="5" />
+        <TextBlock Text="{Binding polyNorm.X}" Margin="5" />
+        <TextBlock Text="{Binding polyNorm.Y}" Margin="5" />
+        <TextBlock Text="{Binding polyNorm.Z}" Margin="5" />
+        <TextBlock Text="{Binding Point.X,StringFormat=X: {0:F2}}" Margin="5" />
+        <TextBlock Text="{Binding Point.Y,StringFormat=Y: {0:F2}}" Margin="5" />
+        <TextBlock Text="{Binding Elevation,StringFormat=Elevation: {0:F2}}" Margin="5" />
+        <TextBlock Text="{Binding Moisture,StringFormat=Moisture: {0:F2}}" Margin="5" />
+
+        <ListBox ItemsSource="{Binding Corners}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Path=Point.X,StringFormat= X: {0:F2} }"></TextBlock>
+                        <TextBlock Text="-"></TextBlock>
+                        <TextBlock Text="{Binding Path=Point.Y,StringFormat= Y: {0:F2} }"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+    </StackPanel>
+</UserControl>

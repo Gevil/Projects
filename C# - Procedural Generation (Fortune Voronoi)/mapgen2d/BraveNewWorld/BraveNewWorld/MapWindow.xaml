@@ -1,0 +1,11 @@
+﻿<Window x:Class="BraveNewWorld.MapWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MapWindow" >
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Canvas Name="canvas1" Width="3840" Height="2176" MouseDown="Canvas1_OnMouseDown">
+
+        </Canvas>
+    </ScrollViewer>
+    
+</Window>

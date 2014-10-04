@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="BraveNewWorld.UserControls.ZoneBorders"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
+    <ListBox IsHitTestVisible="False" x:Name="SelectedCentersEdgesContainer" ItemsSource="{Binding Path=Borders}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <Canvas />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Line
+                                     X2="{Binding Path=DiffX}" Y2="{Binding Path=DiffY}"
+                                     Stroke="Red"
+                                     StrokeThickness="2"/>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+        <ItemsControl.ItemContainerStyle>
+            <Style>
+                <Setter Property="Canvas.Left" Value="{Binding Path=VoronoiStart.Point.X}" />
+                <Setter Property="Canvas.Top" Value="{Binding Path=VoronoiStart.Point.Y}" />
+            </Style>
+        </ItemsControl.ItemContainerStyle>
+    </ListBox>
+</UserControl>

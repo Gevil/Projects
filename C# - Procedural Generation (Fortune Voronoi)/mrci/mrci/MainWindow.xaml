@@ -1,0 +1,10 @@
+﻿<Window x:Class="mrci.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525" >
+    <Grid >
+        <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PanningMode="Both" >
+            <Canvas Name="canvas1" HorizontalAlignment="Left" Height="2170" Width="3840" VerticalAlignment="Top" MouseDown="Canvas1_OnMouseDown" />
+        </ScrollViewer>
+    </Grid>
+</Window>
