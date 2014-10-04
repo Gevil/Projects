@@ -1,0 +1,62 @@
+Initialize engine version: 4.5.4f1 (e036f44c54c9)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 10.1]
+    Renderer: NVIDIA GeForce GT 330M    (ID=0xa29)
+    Vendor:   NVIDIA
+    VRAM:     972 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Dropbox\Public\Unity\test_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Dropbox\Public\Unity\test_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Dropbox\Public\Unity\test_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Dropbox\Public\Unity\test_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Dropbox\Public\Unity\test_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Dropbox\Public\Unity\test_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Dropbox\Public\Unity\test_Data\Managed\Assembly-UnityScript-firstpass.dll (this message is harmless)
+Loading C:\Dropbox\Public\Unity\test_Data\Managed\Assembly-UnityScript-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Dropbox\Public\Unity\test_Data\Managed\Assembly-UnityScript.dll (this message is harmless)
+Loading C:\Dropbox\Public\Unity\test_Data\Managed\Assembly-UnityScript.dll into Unity Child Domain
+- Completed reload, in  0.084 seconds
+desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+The referenced script on this Behaviour is missing!
+ 
+(Filename:  Line: 1633)
+
+HDR and MultisampleAntiAliasing (in Forward Rendering Path) is not supported. This camera will render without HDR buffers. Disable Antialiasing in the Quality settings if you want to use HDR.
+ 
+(Filename:  Line: 2435)
+
+HDR RenderTexture format is not supported on this platform. This camera will render without HDR buffers.
+ 
+(Filename:  Line: 2437)
+
+Initializing.
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Generatoing voronoi points.
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Rasterizing image.
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+WaveSpectrumCPU::WaveSpectrumCPU	- inverse wave age must be >= 0.8, changing to 0.8
+ 
+(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+
+Platform assembly: C:\Dropbox\Public\Unity\test_Data\Managed\Boo.Lang.dll (this message is harmless)
+IsolatedStorageException: Could not find a part of the path "C:\Dropbox\Public\Unity\test_Data\Output\Map1.png".
+  at System.IO.FileStream..ctor (System.String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, Boolean anonymous, FileOptions options) [0x00000] in <filename unknown>:0 
+  at System.IO.FileStream..ctor (System.String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize) [0x00000] in <filename unknown>:0 
+  at System.IO.File.Create (System.String path, Int32 bufferSize) [0x00000] in <filename unknown>:0 
+  at System.IO.File.Create (System.String path) [0x00000] in <filename unknown>:0 
+  at System.IO.File.WriteAllBytes (System.String path, System.Byte[] bytes) [0x00000] in <filename unknown>:0 
+  at VoronoiIsland.DumpMapToFile (UnityEngine.Texture2D texture) [0x00000] in <filename unknown>:0 
+  at VoronoiIsland+<DoRaster>c__Iterator0.MoveNext () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
